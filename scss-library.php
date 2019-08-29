@@ -88,9 +88,16 @@ class SassLibrary
 		// Generate unique filename for output
 		$outName = sha1($src) . '.css';
 
+		//Directorio donde se almacenará el cache
+		$pathname = '/cache/scss_library/';
+		if ( is_multisite() ) {
+            $blog_id   = get_current_blog_id();
+            $pathname .= $blog_id . '/';
+        }
+
 		$wp_upload_dir = wp_upload_dir();
-		$outputDir = $wp_upload_dir['basedir'] . '/scsslib_dist/';
-		$outputUrl = $wp_upload_dir['baseurl'] . '/scsslib_dist/' . $outName;
+		$outputDir = WP_CONTENT_DIR . $pathname;
+		$outputUrl = WP_CONTENT_URL .  $pathname . $outName;
 
 		// Create the output directory if it doesn't exisit
 		if (is_dir($outputDir) === false) {
