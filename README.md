@@ -1,5 +1,4 @@
 # SCSS-Library
-
 Contributors: sebaxtian
 Tags: SASS, compiler, SCSS
 Requires at least: 4.4
@@ -12,6 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Agrega soporte para usar archivos de estilo SCSS con wp_enqueue_style.
 
 ## Description
+
 Este plugin permite usar arhivos SCSS directamente en `wp_enqueue_style`. Tan solo agregue el archivo a la lista de estilos y el plugin se encargará de compilarlo cuando sea necesario.
 
 La base de este plugin está fuertemente influenciada por el código de [WP-SCSS](https://wordpress.org/plugins/wp-scss/) y extrae algunas ideas de [Sassify](https://wordpress.org/plugins/sassify/). El objetivo es mantener el plugin actualizado con la versión más reciente de [scssphp](https://packagist.org/packages/scssphp/scssphp), eliminar las opciones de configuración desde la interfaz gráfica y usar las capacidades phpcss para crear los archivos de depuración.
@@ -19,10 +19,12 @@ La base de este plugin está fuertemente influenciada por el código de [WP-SCSS
 Este plugin no está pensado para ser instalado por un usuario convencional, sino para ser requerido por plantillas o plugins que deseen incluir archivos de estilo scss y por lo tanto se espera que la configuración se haga en el código.
 
 ## Installation
+
 1. Decompress scss-library.zip and upload `/scss-library/` to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the __Plugins__ menu in WordPress.
 
 ## Frequently Asked Questions
+
 ### Desempeño
 Este plugin agrega muchos pasos extra para algo tan simple como imprimir una etiqueta de enlace de estilo dentro de un sitio:
 * Revisa el tiempo de creación del archivo compilado.
