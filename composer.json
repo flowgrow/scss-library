@@ -1,13 +1,14 @@
 {
     "name": "baxtian/sass-library",
     "type": "wordpress-plugin",
-    "authors": [
-        {
-            "name": "Juan Sebastián Echeverry",
-            "email": "baxtian.echeverry@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "Juan Sebastián Echeverry",
+        "email": "baxtian.echeverry@gmail.com"
+    }],
     "require": {
-		"scssphp/scssphp": "1.0.3"
-	}
+        "scssphp/scssphp": "1.0.3"
+    },
+    "scripts": {
+        "readme": "curl -L https://raw.githubusercontent.com/fumikito/wp-readme/master/wp-readme.php | php"
+    }
 }
