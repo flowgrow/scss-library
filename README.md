@@ -1,22 +1,23 @@
 # SCSS-Library
-Contributors: sebaxtian
-Tags: SASS, compiler, SCSS
-Requires at least: 4.4
-Tested up to: 5.2.2
-Stable tag: trunk
-Requires PHP: 5.0
-License: GPLv2 or later
+
+Contributors: sebaxtian  
+Tags: SASS, compiler, SCSS  
+Requires at least: 4.4  
+Tested up to: 5.2.2  
+Stable tag: trunk  
+Requires PHP: 5.0  
+License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Agrega soporte para usar archivos de estilo SCSS con wp_enqueue_style.
+Add support for using SCSS style files with wp\_enqueue\_style.
 
 ## Description
 
-Este plugin permite usar arhivos SCSS directamente en `wp_enqueue_style`. Tan solo agregue el archivo a la lista de estilos y el plugin se encargará de compilarlo cuando sea necesario.
+This plugin allows you to use SCSS files directly in **wp\_enqueue\_style**. Just add the file to the list of styles and the plugin will compile it when necessary.
 
-La base de este plugin está fuertemente influenciada por el código de [WP-SCSS](https://wordpress.org/plugins/wp-scss/) y extrae algunas ideas de [Sassify](https://wordpress.org/plugins/sassify/). El objetivo es mantener el plugin actualizado con la versión más reciente de [scssphp](https://packagist.org/packages/scssphp/scssphp), eliminar las opciones de configuración desde la interfaz gráfica y usar las capacidades phpcss para crear los archivos de depuración.
+The base of this plugin is strongly influenced by the [WP-SCSS](https://wordpress.org/plugins/wp-scss/) code of and extracts some ideas from [Sassify](https://wordpress.org/plugins/sassify/). The goal is to keep the plugin updated with the latest version of [scssphp](https://packagist.org/packages/scssphp/scssphp), remove configuration options from the graphical interface, and use the **scssphp** capabilities to create debug files.
 
-Este plugin no está pensado para ser instalado por un usuario convencional, sino para ser requerido por plantillas o plugins que deseen incluir archivos de estilo scss y por lo tanto se espera que la configuración se haga en el código.
+This plugin is not intended to be installed by a conventional user, but to be required by templates or plugins that wish to include **SCSS** style files and therefore the configuration is expected to be done in the code.
 
 ## Installation
 
@@ -25,26 +26,28 @@ Este plugin no está pensado para ser instalado por un usuario convencional, sin
 
 ## Frequently Asked Questions
 
-### Desempeño
-Este plugin agrega muchos pasos extra para algo tan simple como imprimir una etiqueta de enlace de estilo dentro de un sitio:
-* Revisa el tiempo de creación del archivo compilado.
-* Interactúa con la base de datos.
-* Convierte un archivo SCSS en un archivo de estilo.
-Es obvio que va a agregar algunas milésimas de segundo al tiempo de carga del sitio.
+### Performance
+This plugin adds many extra steps for something as simple as printing a style link tag inside a site:
 
-### ¿Qué tanto se va a ver afectado el desempeño?
-Depende de cuántos archivos SCSS agregue a la lista de estilos y que tan complejos sean.
+* Check the creation time of the compiled file.
+* Interacts with the database.
+* Converts a SCSS file into a style file.
 
-### ¿Entonces no lo debo usar en producción?
-Claro que puede usarlo. Si lo que busca es tener un sitio rápido entonces deberá también agregar a su entorno de producción un plugin de cache o de optimización, aunque es muy probable que ya lo haya hecho. En lo personal he trabajado con [Comet Cache](https://wordpress.org/plugins/comet-cache/) y con [Autoptimize](https://wordpress.org/plugins/autoptimize/) sin que haya habido inconvenientes. Cualquier problema que encuentre con otro plugin de caché no dude en escribir con los detalles (mientras más información incluya se será más fácil para mi solucionarlo).
+Obviously it will add a few thousandths of a second to the loading time of the site.
 
-### ¿Entonces qué busca con este plugin?
-Lo que quiero es emular para los archivos de estilo la facilidad de desarrollo que ofrece [Timber](https://wordpress.org/plugins/timber-library/). Que SCSS-Library sea a SCSS lo que Timber es a Twig.
+### How much will performance be affected?
+It depends on how many **SCSS** files you add to the list of styles and how complex they are.
 
-Mi objetivo con este plugin es poder cambiar directamente el archivo SCSS y ver el resultado de forma inmediata. Nada de compilaciones previas ni comandos en una terminal. Está pensado para equipos de desarrollo que incluyen diseñadores gráficos que entienden de CSS y HTML pero que se prefieren no tener que abrir una terminal; y para secundar a los propgramadores perezosos que como yo preferimos dejar las tareas repetitivas a las máquinas.
+### So I shouldn't use it in production?
+Of course you can use it. If you are looking for a fast site then you should also add a cache or optimization plugin to your production environment, although it is very likely that you have already done so. Personally I have worked with [Comet Cache](https://wordpress.org/plugins/comet-cache/) and [Autoptimize](https://wordpress.org/plugins/autoptimize/) without any inconvenience. Any problems you encounter with another cache plugin don't hesitate to write down the details to replicate the error. Remember that the more information you include in the report the easier it will be to fix it.
+
+### Then what are you looking for with this plugin?
+What I want is to emulate for the style files the ease of development offered by [Timber](https://wordpress.org/plugins/timber-library/). Let **SCSS-Library** be to **SCSS** what **Timber** is to **Twig**.
+
+My goal with this plugin is to be able to change the SCSS file directly and see the result immediately. No previous compilations or commands in a terminal. It is intended for development teams that include graphic designers who understand **CSS** and **HTML** but prefer not to have to open a terminal; and to support lazy programmers who like me prefer to leave repetitive tasks to the machines.
 
 ### Is this plugin bug free?
-I don\'t think so. Feedbacks would be appreciated.
+I don't think so. Feedbacks would be appreciated.
 
 ## Changelog
 ### 0.1
