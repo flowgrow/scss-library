@@ -4,7 +4,7 @@ Plugin Name: SCSS-Library
 Description: Adds support for SCSS stylesheets to wp_enqueue_style.
 Author: Juan Sebastián Echeverry
 Version: 0.1.0
-Text Domain: sasslib
+Text Domain: scsslib
 
 Copyright 2019 Juan Sebastián Echeverry (baxtian.echeverry@gmail.com)
 
@@ -42,8 +42,16 @@ class SassLibrary
 	 */
 	public function __construct()
 	{
+		add_action('plugins_loaded', [$this, 'plugin_setup']);
 		add_filter('style_loader_src', [$this, 'style_loader_src'], 10, 2);
 		add_action('wp_footer', array($this, 'wp_footer'));
+	}
+
+	//Función después de activar los plugins
+	public function plugin_setup()
+	{
+		//Activar el traductor
+		load_plugin_textdomain('scsslib', false, basename(__DIR__) . '/languages');
 	}
 
 	/**
@@ -80,7 +88,7 @@ class SassLibrary
 		if (file_exists($in) === false) {
 			array_push($this->errors, array(
 				'file'    => basename($in),
-				'message' => 'Source file not found.',
+				'message' => __('Source file not found.', 'scsslib'),
 			));
 			return $src;
 		}
@@ -104,7 +112,7 @@ class SassLibrary
 			if (wp_mkdir_p($outputDir) === false) {
 				array_push($this->errors, array(
 					'file'    => 'Cache Directory',
-					'message' => 'File Permissions Error, unable to create cache directory. Please make sure the Wordpress Uploads directory is writable.',
+					'message' => __('File Permissions Error, unable to create cache directory. Please make sure the Wordpress Uploads directory is writable.', 'scsslib'),
 				));
 				return $src;
 			}
@@ -114,7 +122,7 @@ class SassLibrary
 		if (is_writable($outputDir) === false) {
 			array_push($this->errors, array(
 				'file'    => 'Cache Directory',
-				'message' => 'File Permissions Error, permission denied. Please make the cache directory writable.',
+				'message' => __('File Permissions Error, permission denied. Please make the cache directory writable.', 'scsslib'),
 			));
 			return $src;
 		}
@@ -270,7 +278,7 @@ class SassLibrary
 		}
 		</style>
 		<div id="scsslib">
-			<div class="scsslib-title">Sass Compiling Error</div>
+			<div class="scsslib-title"><?php _e('Sass Compiling Error', 'scsslib'); ?></div>
 			<?php foreach ($this->errors as $error): ?>
 				<div class="scsslib-error">
 					<div class="scsslib-file"><?php print $error['file'] ?></div>
