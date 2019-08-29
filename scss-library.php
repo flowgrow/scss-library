@@ -114,6 +114,7 @@ class SassLibrary
 					'file'    => 'Cache Directory',
 					'message' => __('File Permissions Error, unable to create cache directory. Please make sure the Wordpress Uploads directory is writable.', 'scsslib'),
 				));
+				delete_transient('scsslib_filemtimes');
 				return $src;
 			}
 		}
@@ -124,6 +125,7 @@ class SassLibrary
 				'file'    => 'Cache Directory',
 				'message' => __('File Permissions Error, permission denied. Please make the cache directory writable.', 'scsslib'),
 			));
+			delete_transient('scsslib_filemtimes');
 			return $src;
 		}
 
