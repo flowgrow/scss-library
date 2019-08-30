@@ -28,7 +28,7 @@ require_once('vendor/autoload.php');
 use ScssPhp\ScssPhp\Compiler;
 
 // Inicializar Plugin
-class SassLibrary
+class ScssLibrary
 {
 	/**
 	 * Arreglo para guardar los errores de compliación.
@@ -286,4 +286,4 @@ class SassLibrary
 	}
 }
 
-new SassLibrary;
+new ScssLibrary;
