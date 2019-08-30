@@ -83,6 +83,14 @@ class ScssLibrary
 
 		// Crear ruta completa
 		$in = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . $url['path'];
+		
+		//Si es parte de un multisitio entonces hay que retirar el 'dominio'
+		if ( is_multisite() ) {
+            $blog_details   = get_blog_details();
+			if($blog_details->path != PATH_CURRENT_SITE) {
+				$in = str_replace($blog_details->path, PATH_CURRENT_SITE, $in);
+			}
+        }
 
 		// Confirmar que el archivo fuente existe
 		if (file_exists($in) === false) {
