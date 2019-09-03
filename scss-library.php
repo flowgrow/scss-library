@@ -3,7 +3,7 @@
 Plugin Name: SCSS-Library
 Description: Adds support for SCSS stylesheets to wp_enqueue_style.
 Author: Juan Sebastián Echeverry
-Version: 0.1.1
+Version: 0.1.0
 Text Domain: scsslib
 
 Copyright 2019 Juan Sebastián Echeverry (baxtian.echeverry@gmail.com)
@@ -102,7 +102,7 @@ class ScssLibrary
 		}
 
 		// Generar nombre único paa el archivo compilado
-		$outName = sha1($src) . '.css';
+		$outName = sha1($url['path']) . '.css';
 
 		// Directorio donde se almacenará el cache
 		$pathname = '/cache/scss_library/';
@@ -171,6 +171,11 @@ class ScssLibrary
 				$compileRequired = true;
 				set_transient('scsslib_variables_signature', $signature);
 			}
+		}
+
+		//Si el archivo no existe entonces hay que compilar
+		if(!file_exists($outputDir . $outName)) {
+			$compileRequired = true;
 		}
 
 		// Tipo de formato por defecto
