@@ -50,6 +50,11 @@ My goal with this plugin is to be able to change the SCSS file directly and see 
 I don't think so. Feedbacks would be appreciated.
 
 ## Changelog
+### 0.1.2
+* Fixing filename bugs.
+	* A new version number in the declaration sets a new filename, which creates new files without deleting the previous ones. Now the plugin uses only the url path as the basis for the name of the compiled file.
+	* Create compiled file if the file does not exist.
+
 ### 0.1.1
 * Solving multisite bug.
 
