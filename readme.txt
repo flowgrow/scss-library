@@ -51,12 +51,13 @@ I don't think so. Feedbacks would be appreciated.
 
 == Changelog ==
 = 0.1.3 =
-* Autoptimize does not aggregate compiled files. Bug solved using a new directory for compiled files instead the cache diectory.
-
+* Autoptimize does not aggregate compiled files.
+	* Autoptimize by default does not aggregate files stored in the cache directory. Declaring a new build directory solves the bug.
+	
 = 0.1.2 =
 * Fixing filename bugs.
-* A new version number in the declaration sets a new filename, which creates new files without deleting the previous ones. Now the plugin uses only the url path as the basis for the name of the compiled file.
-* Create compiled file if the file does not exist.
+	* A new version number in the declaration sets a new filename, which creates new files without deleting the previous ones. Now the plugin uses only the url path as the basis for the name of the compiled file.
+	* Create compiled file if the file does not exist.
 
 = 0.1.1 =
 * Solving multisite bug.
