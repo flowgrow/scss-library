@@ -50,6 +50,9 @@ My goal with this plugin is to be able to change the SCSS file directly and see 
 I don't think so. Feedbacks would be appreciated.
 
 ## Changelog
+### 0.1.3
+* Autoptimize does not aggregate compiled files. Bug solved using a new directory for compiled files instead the cache diectory.
+
 ### 0.1.2
 * Fixing filename bugs.
 * A new version number in the declaration sets a new filename, which creates new files without deleting the previous ones. Now the plugin uses only the url path as the basis for the name of the compiled file.
