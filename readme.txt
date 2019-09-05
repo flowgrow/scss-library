@@ -51,16 +51,14 @@ I don't think so. Feedbacks would be appreciated.
 
 == Changelog ==
 = 0.1.3 =
-* Autoptimize does not aggregate compiled files.
-	* Autoptimize by default does not aggregate files stored in the cache directory. Declaring a new build directory solves the bug.
-	
+* Bug fixed: Autoptimize does not aggregate compiled files.
+
 = 0.1.2 =
-* Fixing filename bugs.
-	* A new version number in the declaration sets a new filename, which creates new files without deleting the previous ones. Now the plugin uses only the url path as the basis for the name of the compiled file.
-	* Create compiled file if the file does not exist.
+* Create compiled file if the file does not exist.
+* Bug fixed: new version number in the wp\_enqueue\_style declaration recreates build file with a new name.
 
 = 0.1.1 =
-* Solving multisite bug.
+* Bug fixed: multisite pages lost the path to the compiled files.
 
 = 0.1 =
 * First release.
