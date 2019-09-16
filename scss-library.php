@@ -27,18 +27,16 @@ require_once('vendor/autoload.php');
 
 use ScssPhp\ScssPhp\Compiler;
 
-// Inicializar Plugin
+/**
+ * Clase para agregar arhivos de estilo scss directamente con la función wp_enqueue_style.
+ */
 class ScssLibrary
 {
-	/**
-	 * Arreglo para guardar los errores de compliación.
-	 * @var array
-	 */
+	// Arreglo apra guardar los mensajes de error de compilación
 	protected $errors = array();
 
 	/**
 	 * Crear la instancia.
-	 * @return void
 	 */
 	public function __construct()
 	{
@@ -47,14 +45,21 @@ class ScssLibrary
 		add_action('wp_footer', array($this, 'wp_footer'));
 	}
 
-	//Función después de activar los plugins
+	/**
+	 * Función después de activar los plugins
+	 */
 	public function plugin_setup()
 	{
-		//Activar el traductor
+		// Activar el traductor
 		load_plugin_textdomain('scsslib', false, basename(__DIR__) . '/languages');
 	}
 
-	// Función para compilar los estilos SCSS.
+	/**
+	 * Función para atender los estilos y compilar aquellos que son de extensión SCSS
+	 * @param  string $src    URL del archivo a ser atendido
+	 * @param  string $handle Nombre con el que se identifica internamente
+	 * @return string         URL a la versión copilada o al original en caso de no haber sido compilado
+	 */
 	public function style_loader_src($src, $handle)
 	{
 
@@ -84,7 +89,7 @@ class ScssLibrary
 		// Crear ruta completa
 		$in = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . $url['path'];
 
-		//Si es parte de un multisitio entonces hay que retirar el 'dominio'
+		// Si es parte de un multisitio entonces hay que retirar el 'dominio'
 		if ( is_multisite() ) {
             $blog_details   = get_blog_details();
 			if($blog_details->path != PATH_CURRENT_SITE) {
@@ -173,7 +178,7 @@ class ScssLibrary
 			}
 		}
 
-		//Si el archivo no existe entonces hay que compilar
+		// Si el archivo no existe entonces hay que compilar
 		if(!file_exists($outputDir . $outName)) {
 			$compileRequired = true;
 		}
@@ -209,8 +214,8 @@ class ScssLibrary
 			$compiler->setVariables($variables);
 			$compiler->setImportPaths(dirname($in));
 
+			// Compilar de SCSS a CSS
 			try {
-				// Compilar de SCSS a CSS
 				$css = $compiler->compile(file_get_contents($in), $in);
 			} catch (Exception $e) {
 				array_push($this->errors, array(
@@ -236,16 +241,20 @@ class ScssLibrary
 		return empty($url['query']) ? $outputUrl : $outputUrl . '?' . $url['query'];
 	}
 
-	// Publicar errores
+	/**
+	 * Agergar elementos al pie de página.
+	 */
 	public function wp_footer()
 	{
-		//Si hay errores, visualizarlos
+		// En caso de haber registro de errores, visualizarlos
 		if (count($this->errors)) {
 			$this->displayErrors();
 		}
 	}
 
-	// HTML para visualizar errores.
+	/**
+	 * Publicación de errores en HTML
+	 */
 	protected function displayErrors()
 	{
 		?>
