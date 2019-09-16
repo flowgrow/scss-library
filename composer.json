@@ -5,6 +5,11 @@
         "name": "Juan Sebastián Echeverry",
         "email": "baxtian.echeverry@gmail.com"
     }],
+	"autoload": {
+        "psr-4": {
+            "ScssLibrary\\": "src/"
+        }
+    },
     "require": {
         "scssphp/scssphp": "1.0.3"
     },
