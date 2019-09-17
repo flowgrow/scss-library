@@ -25,6 +25,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require_once('vendor/autoload.php');
 
-use ScssLibrary\ScssLibrary as Plugin;
+use ScssLibrary\ScssLibrary as ScssLibrary;
 
-Plugin::get_instance();
+ScssLibrary::get_instance();

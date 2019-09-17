@@ -61,7 +61,7 @@ class ScssLibrary
 	/**
 	 * Función después de activar los plugins
 	 */
-	public function plugin_setup()
+	public function plugin_setup(): void
 	{
 		// Activar el traductor
 		load_plugin_textdomain('scsslib', false, basename(__DIR__) . '/languages');
@@ -73,7 +73,7 @@ class ScssLibrary
 	 * @param  string $handle Nombre con el que se identifica internamente
 	 * @return string         URL a la versión copilada o al original en caso de no haber sido compilado
 	 */
-	public function style_loader_src($src, $handle)
+	public function style_loader_src($src, $handle): string
 	{
 
 		// Si el nombre el archivo no tiene el texto scss entonces
@@ -257,7 +257,7 @@ class ScssLibrary
 	/**
 	 * Agergar elementos al pie de página.
 	 */
-	public function wp_footer()
+	public function wp_footer(): void
 	{
 		// En caso de haber registro de errores, visualizarlos
 		if (count($this->errors)) {
@@ -268,7 +268,7 @@ class ScssLibrary
 	/**
 	 * Publicación de errores en HTML
 	 */
-	protected function displayErrors()
+	protected function displayErrors(): void
 	{
 		?>
 		<style>
