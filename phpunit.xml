@@ -2,7 +2,7 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.2/phpunit.xsd" bootstrap="tests/bootstrap.php" backupGlobals="true" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" verbose="true" printerClass="PHPUnit\TextUI\ResultPrinter" >
 	<testsuites>
 		<testsuite name="EForm Test Suit">
-			<directory suffix="Test.php">./tests/</directory>
+			<directory suffix="Test.php">./tests/phpunit</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
