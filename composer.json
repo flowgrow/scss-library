@@ -15,7 +15,8 @@
     },
     "scripts": {
         "readme": "curl -L https://raw.githubusercontent.com/fumikito/wp-readme/master/wp-readme.php | php",
-		"test": "phpunit"
+		"test": "phpunit",
+		"report": "phpunit --coverage-html=./reports"
     },
     "require-dev": {
         "brain/monkey": "^2.3",

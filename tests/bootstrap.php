@@ -17,6 +17,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! defined( 'PLUGIN_ABSPATH' ) ) {
 	define( 'PLUGIN_ABSPATH', sys_get_temp_dir() . '/wp-content/plugins/scss-library/' );
 }
+// define fake WP_CONTENT_DIR
+if ( ! defined( 'WP_CONTENT_DIR' ) ) {
+	define( 'WP_CONTENT_DIR', dirname( __FILE__ ) . '/assets/' ) ;
+}
+// define fake WP_CONTENT_URL
+if ( ! defined( 'WP_CONTENT_URL' ) ) {
+	define( 'WP_CONTENT_URL', 'file://' . dirname( __FILE__ ) . '/assets/' );
+}
+// define fake PATH_CURRENT_SITE
+if ( ! defined( 'PATH_CURRENT_SITE' ) ) {
+	define( 'PATH_CURRENT_SITE', '/' );
+}
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

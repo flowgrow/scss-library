@@ -75,7 +75,6 @@ class ScssLibrary
 	 */
 	public function style_loader_src($src, $handle): string
 	{
-
 		// Si el nombre el archivo no tiene el texto scss entonces
 		// retornar el estilo sin cambios
 		if (strpos($src, 'scss') === false) {
@@ -104,9 +103,9 @@ class ScssLibrary
 
 		// Si es parte de un multisitio entonces hay que retirar el 'dominio'
 		if ( is_multisite() ) {
-            $blog_details   = get_blog_details();
-			if($blog_details->path != PATH_CURRENT_SITE) {
-				$in = str_replace($blog_details->path, PATH_CURRENT_SITE, $in);
+            $blog_details_path   = get_blog_details('path');
+			if($blog_details_path != PATH_CURRENT_SITE) {
+				$in = str_replace($blog_details_path, PATH_CURRENT_SITE, $in);
 			}
         }
 
@@ -170,10 +169,8 @@ class ScssLibrary
 
 		// Compara la fecha de creación del archivo compilado con la fecha de creación del
 		// archivo fuente. Si es más reciente entones hay que compilar.
-		if ($compileRequired === false) {
-			if (isset($filemtimes[$out]) === false || $filemtimes[$out] < filemtime($in)) {
-				$compileRequired = true;
-			}
+		if (isset($filemtimes[$out]) === false || $filemtimes[$out] < filemtime($in)) {
+			$compileRequired = true;
 		}
 
 		// Obtener las variables variables
@@ -196,39 +193,39 @@ class ScssLibrary
 			$compileRequired = true;
 		}
 
-		// Tipo de formato por defecto
-		$formatter = 'ScssPhp\ScssPhp\Formatter\Expanded';
-
 		// ¿Debemos o no compilar?
 		if ($compileRequired) {
-			// Inicializar compilador
-			$compiler = new Compiler();
-
-			// Determinar las varianles para el archivo de depuración
-			$srcmap_data = array(
-				// Ruta absoluta donde se escribirá el archivo .map
-				'sourceMapWriteTo'  => $outputDir . $outName . ".map",
-				// URL completa o relativa al archivp .map
-				'sourceMapURL'      => $outputUrl . ".map",
-				// (Opcional) URL relativa o completa al archivo .css compilado
-				'sourceMapFilename' => $outputUrl,
-				// Ruta parcial (raiz del servidor) para crear la URL relativa
-				'sourceMapBasepath' => rtrim(ABSPATH, '/'),
-				// (Opcional) Antepuesto a las entradas de campo 'fuente' para reubicar archivos fuente
-				'sourceRoot'        => $src,
-			);
-
-			// Configuración para crear el archivo .map de depuración.
-			$compiler->setSourceMap(Compiler::SOURCE_MAP_FILE);
-			$compiler->setSourceMapOptions($srcmap_data);
-
-			// Configuración para inicializar el compilador.
-			$compiler->setFormatter($formatter);
-			$compiler->setVariables($variables);
-			$compiler->setImportPaths(dirname($in));
-
 			// Compilar de SCSS a CSS
 			try {
+				// Tipo de formato por defecto
+				$formatter = 'ScssPhp\ScssPhp\Formatter\Expanded';
+				
+				// Inicializar compilador
+				$compiler = new Compiler();
+
+				// Determinar las varianles para el archivo de depuración
+				$srcmap_data = array(
+					// Ruta absoluta donde se escribirá el archivo .map
+					'sourceMapWriteTo'  => $outputDir . $outName . ".map",
+					// URL completa o relativa al archivp .map
+					'sourceMapURL'      => $outputUrl . ".map",
+					// (Opcional) URL relativa o completa al archivo .css compilado
+					'sourceMapFilename' => $outputUrl,
+					// Ruta parcial (raiz del servidor) para crear la URL relativa
+					'sourceMapBasepath' => rtrim(ABSPATH, '/'),
+					// (Opcional) Antepuesto a las entradas de campo 'fuente' para reubicar archivos fuente
+					'sourceRoot'        => $src,
+				);
+
+				// Configuración para crear el archivo .map de depuración.
+				$compiler->setSourceMap(Compiler::SOURCE_MAP_FILE);
+				$compiler->setSourceMapOptions($srcmap_data);
+
+				// Configuración para inicializar el compilador.
+				$compiler->setFormatter($formatter);
+				$compiler->setVariables($variables);
+				$compiler->setImportPaths(dirname($in));
+
 				$css = $compiler->compile(file_get_contents($in), $in);
 			} catch (Exception $e) {
 				array_push($this->errors, array(
