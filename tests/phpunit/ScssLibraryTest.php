@@ -107,27 +107,27 @@ class ScssLibraryTest extends \PluginTestCase
 		$stub->wp_footer();
 	}
 
-	// Probar con problemas de escritura en el directorio
-	public function test_problemas_escritura_directorio()
-	{
-		// Expectativas
-		self::expectOutputRegex("/<div class=[\"']scsslib-error[\"']>/");
-		self::expectOutputRegex("/File Permissions Error, permission denied./");
-		// Simulación: Objeto a ser mimetizado
-		// $wp_fs_mock = Mockery::mock( 'WP_Filesystem_Direct' );
-		// $wp_fs_mock
-		// 	->shouldReceive( 'is_writable' )
-		// 	->once()
-		// 	->andReturn(false);
-
-		// Inicializar clase
-		$stub = ScssLibrary::get_instance();
-		$stub_class = get_class($stub);
-
-		$file_scss = WP_CONTENT_URL . 'style.scss';
-		$file_css = $stub->style_loader_src($file_scss, 'test');
-		$stub->wp_footer();
-	}
+	// // Probar con problemas de escritura en el directorio
+	// public function test_problemas_escritura_directorio()
+	// {
+	// 	// Expectativas
+	// 	self::expectOutputRegex("/<div class=[\"']scsslib-error[\"']>/");
+	// 	self::expectOutputRegex("/File Permissions Error, permission denied./");
+	// 	// Simulación: Objeto a ser mimetizado
+	// 	// $wp_fs_mock = Mockery::mock( 'WP_Filesystem_Direct' );
+	// 	// $wp_fs_mock
+	// 	// 	->shouldReceive( 'is_writable' )
+	// 	// 	->once()
+	// 	// 	->andReturn(false);
+	//
+	// 	// Inicializar clase
+	// 	$stub = ScssLibrary::get_instance();
+	// 	$stub_class = get_class($stub);
+	//
+	// 	$file_scss = WP_CONTENT_URL . 'style.scss';
+	// 	$file_css = $stub->style_loader_src($file_scss, 'test');
+	// 	$stub->wp_footer();
+	// }
 
 	// Generar un error en la compilación de un archivo
 	public function test_problemas_al_compilar()
@@ -162,18 +162,5 @@ class ScssLibraryTest extends \PluginTestCase
 
 		// ¿Se creó la instancia de clase ScssLibrary\ScssLibrary?
 		self::assertInstanceOf('ScssLibrary\ScssLibrary', $stub);
-	}
-
-	// Generar un error en la compilación de un archivo
-	public function test_problemas_al_compilar()
-	{
-		// Expectativas
-		self::expectOutputRegex("/<div class=[\"']scsslib-error[\"']>/");
-
-		// Ejecutar
-		$stub = ScssLibrary::get_instance();
-		$file_scss = WP_CONTENT_URL . 'error.scss'; // Usar archivo con error
-		$file_css = $stub->style_loader_src($file_scss, 'test');
-		$stub->wp_footer();
 	}
 }
