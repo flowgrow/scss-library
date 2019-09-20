@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 namespace ScssLibrary;
 
 use ScssPhp\ScssPhp\Compiler;
+use Exception;
 
 /**
  * Clase para agregar arhivos de estilo scss directamente con la función wp_enqueue_style.
@@ -199,7 +200,7 @@ class ScssLibrary
 			try {
 				// Tipo de formato por defecto
 				$formatter = 'ScssPhp\ScssPhp\Formatter\Expanded';
-				
+
 				// Inicializar compilador
 				$compiler = new Compiler();
 
