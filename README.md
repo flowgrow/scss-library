@@ -50,6 +50,9 @@ My goal with this plugin is to be able to change the SCSS file directly and see 
 I don't think so. Feedbacks would be appreciated.
 
 ## Changelog
+### 0.1.4
+* Testing: Test environment added.
+
 ### 0.1.3
 * Bug fixed: Autoptimize does not aggregate compiled files.
 
