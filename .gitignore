@@ -1,5 +1,5 @@
 /vendor
-/coverage
-/reports
 .phpunit.result.cache
 /tests/assets/build
+/tests/coverage
+/tests/reports
