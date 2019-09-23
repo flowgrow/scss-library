@@ -36,6 +36,10 @@ class ScssLibrary
 	// Arreglo apra guardar los mensajes de error de compilación
 	protected $errors = array();
 
+	// Directorio donde se escribirán los archivos compilados
+	private $build_dir;
+	private $build_url;
+
 	// Instancia
 	protected static $instance = null;
 
@@ -57,6 +61,8 @@ class ScssLibrary
 		add_action('plugins_loaded', [$this, 'plugin_setup']);
 		add_filter('style_loader_src', [$this, 'style_loader_src'], 10, 2);
 		add_action('wp_footer', array($this, 'wp_footer'));
+
+		$this->set_directory();
 	}
 
 	/**
@@ -66,6 +72,23 @@ class ScssLibrary
 	{
 		// Activar el traductor
 		load_plugin_textdomain('scsslib', false, basename(__DIR__) . '/languages');
+	}
+
+	public function set_directory( $path = false ) {
+		if(!$path) {
+			// Directorio donde se almacenará el cache
+			$pathname = '/build/scss_library/';
+			if ( is_multisite() ) {
+	            $blog_id   = get_current_blog_id();
+	            $pathname .= $blog_id . '/';
+	        }
+
+			$this->build_dir = WP_CONTENT_DIR . $pathname;
+			$this->build_url = WP_CONTENT_URL . $pathname;
+		} else {
+			$this->build_dir = $path;
+			$this->build_url = 'file:/' . $path;
+		}
 	}
 
 	/**
@@ -122,16 +145,9 @@ class ScssLibrary
 		// Generar nombre único paa el archivo compilado
 		$outName = sha1($url['path']) . '.css';
 
-		// Directorio donde se almacenará el cache
-		$pathname = '/build/scss_library/';
-		if ( is_multisite() ) {
-            $blog_id   = get_current_blog_id();
-            $pathname .= $blog_id . '/';
-        }
-
-		$wp_upload_dir = wp_upload_dir();
-		$outputDir = WP_CONTENT_DIR . $pathname;
-		$outputUrl = WP_CONTENT_URL .  $pathname . $outName;
+		// Directorios donde se guardarán los archivos compilados
+		$outputDir = $this->build_dir;
+		$outputUrl = $this->build_url . $outName;
 
 		// Crear el directorio de archivos compilados si no existe
 		if (is_dir($outputDir) === false) {

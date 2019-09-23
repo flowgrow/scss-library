@@ -5,18 +5,8 @@ use Brain\Monkey\Functions;
 use Brain\Monkey\Actions;
 use Brain\Monkey\Filters;
 
-class ScssLibraryTest extends \PluginTestCase
+class ScssLibraryTest extends \BaseTestCase
 {
-	// Borrado recursivo de directorio
-	static public function recurseRmdir($dir)
-	{
-		if(!is_dir("$dir")) return false;
-		$files = array_diff(scandir($dir), array('.','..'));
-		foreach ($files as $file) {
-			(is_dir("$dir/$file")) ? self::recurseRmdir("$dir/$file") : unlink("$dir/$file");
-		}
-		return rmdir($dir);
-	}
 
 	// Probar inicialización, detectando que se carguen los hook
 	public function test_init()
@@ -67,6 +57,7 @@ class ScssLibraryTest extends \PluginTestCase
 		Functions\when('is_multisite')->justReturn(true);
 		Functions\when('get_blog_details')->justReturn(PATH_CURRENT_SITE . '/sitio_2/' );
 		Functions\when('get_current_blog_id')->justReturn(2);
+		$stub->set_directory(); //Recrear el directorio porque ahora estamos en multisitio
 		$file_scss = $stub->style_loader_src($file_css, 'test');
 		self::assertTrue(strpos($file_scss, 'build/scss_library/2') != false);
 		self::assertFileExists($file_scss);
@@ -107,27 +98,30 @@ class ScssLibraryTest extends \PluginTestCase
 		$stub->wp_footer();
 	}
 
-	// // Probar con problemas de escritura en el directorio
-	// public function test_problemas_escritura_directorio()
-	// {
-	// 	// Expectativas
-	// 	self::expectOutputRegex("/<div class=[\"']scsslib-error[\"']>/");
-	// 	self::expectOutputRegex("/File Permissions Error, permission denied./");
-	// 	// Simulación: Objeto a ser mimetizado
-	// 	// $wp_fs_mock = Mockery::mock( 'WP_Filesystem_Direct' );
-	// 	// $wp_fs_mock
-	// 	// 	->shouldReceive( 'is_writable' )
-	// 	// 	->once()
-	// 	// 	->andReturn(false);
-	//
-	// 	// Inicializar clase
-	// 	$stub = ScssLibrary::get_instance();
-	// 	$stub_class = get_class($stub);
-	//
-	// 	$file_scss = WP_CONTENT_URL . 'style.scss';
-	// 	$file_css = $stub->style_loader_src($file_scss, 'test');
-	// 	$stub->wp_footer();
-	// }
+	// Probar con problemas de escritura en el directorio
+	public function test_problemas_escritura_directorio()
+	{
+		// Expectativas
+		self::expectOutputRegex("/<div class=[\"']scsslib-error[\"']>/");
+		self::expectOutputRegex("/File Permissions Error, permission denied./");
+
+		// Simulación: directorio de escritura
+		$fs = new \VirtualFileSystem\FileSystem();
+
+		//Simular problemas de escritura
+		chmod($fs->path('/'), 0000);
+
+		// Inicializar clase
+		$stub = ScssLibrary::get_instance();
+		$stub->set_directory($fs->path('/'));
+
+		$file_scss = WP_CONTENT_URL . 'style.scss';
+		$file_css = $stub->style_loader_src($file_scss, 'test');
+		$stub->wp_footer();
+
+		// Reset directorio
+		$stub->set_directory();
+	}
 
 	// Generar un error en la compilación de un archivo
 	public function test_problemas_al_compilar()
@@ -162,5 +156,8 @@ class ScssLibraryTest extends \PluginTestCase
 
 		// ¿Se creó la instancia de clase ScssLibrary\ScssLibrary?
 		self::assertInstanceOf('ScssLibrary\ScssLibrary', $stub);
+
+		// Borrar archivos compilados
+		self::recurseRmdir(WP_CONTENT_DIR . 'build');
 	}
 }

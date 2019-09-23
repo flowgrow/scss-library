@@ -8,7 +8,7 @@ use Brain\Monkey\Functions;
  * An abstraction over WP_Mock to do things fast
  * It also uses the snapshot trait
  */
-class PluginTestCase extends \PHPUnit\Framework\TestCase
+class BaseTestCase extends \PHPUnit\Framework\TestCase
 {
 	// use MatchesSnapshots;
 	// use MockeryPHPUnitIntegration;
@@ -75,5 +75,19 @@ class PluginTestCase extends \PHPUnit\Framework\TestCase
 	{
 		Monkey\tearDown();
 		parent::tearDown();
+	}
+
+	/**
+	 * Borrado recursivo de directorio
+	 * @var bool
+	 */
+	static public function recurseRmdir($dir)
+	{
+		if(!is_dir("$dir")) return false;
+		$files = array_diff(scandir($dir), array('.','..'));
+		foreach ($files as $file) {
+			(is_dir("$dir/$file")) ? self::recurseRmdir("$dir/$file") : unlink("$dir/$file");
+		}
+		return rmdir($dir);
 	}
 }

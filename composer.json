@@ -16,10 +16,12 @@
     "scripts": {
         "readme": "curl -L https://raw.githubusercontent.com/fumikito/wp-readme/master/wp-readme.php | php",
 		"test": "phpunit",
-		"report": "phpunit --coverage-html=./reports"
+		"report": "phpunit --coverage-html=./reports",
+		"clear": "rm -R ./coverage & rm -R ./coverage reports & composer update --no-dev"
     },
     "require-dev": {
         "brain/monkey": "^2.3",
-        "phpunit/phpunit": "^8.3"
+        "phpunit/phpunit": "^8.3",
+        "php-vfs/php-vfs": "*@stable"
     }
 }
