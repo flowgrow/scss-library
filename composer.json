@@ -16,7 +16,7 @@
     "scripts": {
         "readme": "curl -L https://raw.githubusercontent.com/fumikito/wp-readme/master/wp-readme.php | php",
 		"test": "phpunit",
-		"report": "phpunit --coverage-html=./reports",
+		"test-report": "phpunit --coverage-html=./reports",
 		"clean": [
 			"rm -rf ./coverage",
 			"rm -rf ./reports",
