@@ -17,7 +17,11 @@
         "readme": "curl -L https://raw.githubusercontent.com/fumikito/wp-readme/master/wp-readme.php | php",
 		"test": "phpunit",
 		"report": "phpunit --coverage-html=./reports",
-		"clear": "rm -R ./coverage & rm -R ./coverage reports & composer update --no-dev"
+		"clean": [
+			"rm -rf ./coverage",
+			"rm -rf ./reports",
+			"@composer update --no-dev"
+		]
     },
     "require-dev": {
         "brain/monkey": "^2.3",
