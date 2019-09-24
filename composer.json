@@ -24,7 +24,7 @@
 		"test-report": "phpunit --coverage-html=./tests/reports",
 		"zip": [
 			"@clear",
-			"git archive --format=zip -o scss-library.zip HEAD",
+			"@composer archive --format=zip --file scss-library",
 			"zip -u scss-library.zip vendor/*",
 			"zip -d scss-library.zip README.md phpunit.xml .gitignore composer.* 'tests/*'"
 		],
