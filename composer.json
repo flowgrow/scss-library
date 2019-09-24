@@ -22,10 +22,11 @@
         "readme": "curl -L https://raw.githubusercontent.com/fumikito/wp-readme/master/wp-readme.php | php",
 		"test": "phpunit",
 		"test-report": "phpunit --coverage-html=./tests/reports",
-		"archive": [
+		"zip": [
 			"@clear",
 			"git archive --format=zip -o scss-library.zip HEAD",
-			"zip -d scss-library.zip README.md phpunit.xml .gitignore composer.*"
+			"zip -u scss-library.zip vendor/*",
+			"zip -d scss-library.zip README.md phpunit.xml .gitignore composer.* 'tests/*'"
 		],
 		"clear": [
 			"rm -rf ./tests/coverage",
