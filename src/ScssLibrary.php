@@ -127,7 +127,8 @@ class ScssLibrary
 
 		// Si es parte de un multisitio entonces hay que retirar el 'dominio'
 		if ( is_multisite() ) {
-            $blog_details_path   = get_blog_details('path');
+			$aux = get_blog_details();
+            $blog_details_path   = $aux->path;
 			if($blog_details_path != PATH_CURRENT_SITE) {
 				$in = str_replace($blog_details_path, PATH_CURRENT_SITE, $in);
 			}
