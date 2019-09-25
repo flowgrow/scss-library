@@ -136,6 +136,7 @@ class ScssLibrary
 		// Confirmar que el archivo fuente existe
 		if (file_exists($in) === false) {
 			array_push($this->errors, array(
+				'handle'  => $handle,
 				'file'    => basename($in),
 				'message' => __('Source file not found.', 'scsslib'),
 			));
@@ -153,6 +154,7 @@ class ScssLibrary
 		if (is_dir($outputDir) === false) {
 			if (wp_mkdir_p($outputDir) === false) {
 				array_push($this->errors, array(
+					'handle'  => $handle,
 					'file'    => 'Cache Directory',
 					'message' => __('File Permissions Error, unable to create cache directory. Please make sure the Wordpress Uploads directory is writable.', 'scsslib'),
 				));
@@ -165,6 +167,7 @@ class ScssLibrary
 		// compilados tiene permisos de escritura
 		if (is_writable($outputDir) === false) {
 			array_push($this->errors, array(
+				'handle'  => $handle,
 				'file'    => 'Cache Directory',
 				'message' => __('File Permissions Error, permission denied. Please make the cache directory writable.', 'scsslib'),
 			));
@@ -246,6 +249,7 @@ class ScssLibrary
 				$css = $compiler->compile(file_get_contents($in), $in);
 			} catch (Exception $e) {
 				array_push($this->errors, array(
+					'handle'  => $handle,
 					'file'    => basename($in),
 					'message' => $e->getMessage(),
 				));
@@ -326,7 +330,7 @@ class ScssLibrary
 			<div class="scsslib-title"><?php _e('Sass Compiling Error', 'scsslib'); ?></div>
 			<?php foreach ($this->errors as $error): ?>
 				<div class="scsslib-error">
-					<div class="scsslib-file"><?php print $error['file'] ?></div>
+					<div class="scsslib-file"><?php if($error['handle']) printf('%s : ', $error['handle']); ?><?php print $error['file'] ?></div>
 					<div class="scsslib-message"><?php print $error['message'] ?></div>
 				</div>
 			<?php endforeach ?>
