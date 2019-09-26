@@ -50,6 +50,9 @@ My goal with this plugin is to be able to change the SCSS file directly and see 
 I don't think so. Feedbacks would be appreciated.
 
 == Changelog ==
+= 0.1.5 =
+* Solving multisite bugs.
+
 = 0.1.4 =
 * Testing: Test environment added.
 
