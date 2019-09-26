@@ -33,7 +33,7 @@
 			"rm -rf ./tests/assets/build",
 			"rm -rf ./tests/reports",
 			"rm -f ./scss-library.zip",
-			"@composer update --no-dev"
+			"@composer update --no-dev -o"
 		]
     }
 }
