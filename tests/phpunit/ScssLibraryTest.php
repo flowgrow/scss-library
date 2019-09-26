@@ -4,6 +4,7 @@ use ScssLibrary\ScssLibrary;
 use Brain\Monkey\Functions;
 use Brain\Monkey\Actions;
 use Brain\Monkey\Filters;
+use Mockery as m;
 
 class ScssLibraryTest extends \BaseTestCase
 {
@@ -44,23 +45,28 @@ class ScssLibraryTest extends \BaseTestCase
 		self::assertTrue($file == $stub->style_loader_src($file, 'test'));
 
 		// Crear archivo scss y comprobar que fue creado
-		$file_css = WP_CONTENT_URL . 'style.scss';
-		$file_scss = $stub->style_loader_src($file_css, 'test');
-		self::assertTrue(strpos($file_scss, 'build/scss_library') != false);
-		self::assertFileExists($file_scss);
+		$file_scss = WP_CONTENT_URL . 'style.scss';
+		$file_css = $stub->style_loader_src($file_scss, 'test');
+		self::assertTrue(strpos($file_css, 'build/scss_library') != false);
+		self::assertFileExists($file_css);
 
 		// Usar el archivo cuando ya existe el archivo
-		$file_scss = $stub->style_loader_src($file_css, 'test');
-		self::assertTrue(strpos($file_scss, 'build/scss_library') != false);
+		$file_css = $stub->style_loader_src($file_scss, 'test');
+		self::assertTrue(strpos($file_css, 'build/scss_library') != false);
 
 		// Crear archivo en Multisitio 2 y comprobar que fue creado
 		Functions\when('is_multisite')->justReturn(true);
-		Functions\when('get_blog_details')->justReturn(PATH_CURRENT_SITE . '/sitio_2/' );
-		Functions\when('get_current_blog_id')->justReturn(2);
+
+		$blog_details = m::mock('StdClass');
+		$blog_details->path = PATH_CURRENT_SITE . '/sitio_2/';
+		Functions\when('get_blog_details')->justReturn( $blog_details );
+		Functions\when('get_current_blog_id')->justReturn(2); // Estamos en el sitio con ID 2
 		$stub->set_directory(); //Recrear el directorio porque ahora estamos en multisitio
-		$file_scss = $stub->style_loader_src($file_css, 'test');
-		self::assertTrue(strpos($file_scss, 'build/scss_library/2') != false);
-		self::assertFileExists($file_scss);
+		$file_css = $stub->style_loader_src($file_scss, 'test');
+
+		// Debió ser creado en el directorio del sitio 2
+		self::assertTrue(strpos($file_css, 'build/scss_library/2') != false);
+		self::assertFileExists($file_css);
 
 		// Borrar archivos compilados
 		self::recurseRmdir(WP_CONTENT_DIR . 'build');
