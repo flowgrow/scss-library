@@ -11,7 +11,8 @@
         }
     },
     "require": {
-        "scssphp/scssphp": "1.0.3"
+        "scssphp/scssphp": "1.0.3",
+        "baxtian/php-singleton": "^0.0.1"
     },
 	"require-dev": {
         "brain/monkey": "^2.3",

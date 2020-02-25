@@ -33,6 +33,8 @@ use Exception;
  */
 class ScssLibrary
 {
+	use \Baxtian\Singleton;
+
 	// Arreglo apra guardar los mensajes de error de compilación
 	protected $errors = array();
 
@@ -40,18 +42,8 @@ class ScssLibrary
 	private $build_dir;
 	private $build_url;
 
-	// Instancia
-	protected static $instance = null;
-
-	/**
-	 * Retornar la instancia única de este componente
-	 */
-	public static function get_instance(){
-		if( null == self::$instance ){
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
+	// Modo de desarrollo
+	private $modo_desarrollo;
 
 	/**
 	 * Inicializa el componente
@@ -62,6 +54,8 @@ class ScssLibrary
 		add_filter('style_loader_src', [$this, 'style_loader_src'], 10, 2);
 		add_action('wp_footer', array($this, 'wp_footer'));
 
+		$this->modo_desarrollo = false;
+
 		$this->set_directory();
 	}
 
@@ -71,7 +65,7 @@ class ScssLibrary
 	public function plugin_setup(): void
 	{
 		// Activar el traductor
-		load_plugin_textdomain('scsslib', false, basename(__DIR__) . '/languages');
+		load_plugin_textdomain('scsslib', false, basename(dirname( __FILE__, 2 )) . '/languages/');
 	}
 
 	public function set_directory( $path = false ) {
@@ -103,6 +97,16 @@ class ScssLibrary
 		// retornar el estilo sin cambios
 		if (strpos($src, 'scss') === false) {
 			return $src;
+		}
+
+		// ¿Ya sabesmos que estamos en modo de desarrollo?
+		if(!$this->modo_desarrollo) {
+			// Determinar si hubo un cambio
+			$opciones = get_option('scsslibrary');
+			$this->modo_desarrollo = (
+				(isset($opciones['develop']) && $opciones['develop']) ||
+				(defined('WP_DEBUG') && WP_DEBUG === true)
+			) ? true : false;
 		}
 
 		// Parsear la URL del archivo de estilo
@@ -180,8 +184,8 @@ class ScssLibrary
 		$out = $outputDir . $outName;
 
 		// Bandera para saber si se requiere compilar el archivo. Por defecto suponemos
-		// que no es necesario compilar.
-		$compileRequired = false;
+		// que es o no necesario compilar segun si estamso en el modo de desarrollo o no.
+		$compileRequired = $this->modo_desarrollo;
 
 		// Obtener la fecha que tenemos almacenada como fecha de creación de cada archivos
 		if (($filemtimes = get_transient('scsslib_filemtimes')) === false) {
