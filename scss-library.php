@@ -23,7 +23,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-require_once('vendor/autoload.php');
+// Si estamos usando wp-cli, no correr el plugin
+$autoloader = __DIR__ . '/vendor/autoload.php';
+if ( !is_readable( $autoloader ) ) return;
 
 ScssLibrary\ScssLibrary::get_instance();
 ScssLibrary\Settings\ScssLibrary::get_instance();
