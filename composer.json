@@ -11,7 +11,7 @@
         }
     },
     "require": {
-        "scssphp/scssphp": "1.0.3",
+		"scssphp/scssphp": "^1.0.8",
         "baxtian/php-singleton": "^0.0.1"
     },
 	"require-dev": {
