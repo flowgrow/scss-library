@@ -111,7 +111,8 @@ class ScssLibrary
 			$this->modo_desarrollo = (
 				(isset($opciones['develop']) && $opciones['develop']) ||
 				(defined('WP_DEBUG') && WP_DEBUG === true) ||
-				(isset($_GET['recompile_scss_files']))
+				(isset($_GET['recompile_scss_files'])) ||
+				(isset($_GET['activate_scss_library_devmode']))
 			) ? true : false;
 		}
 
@@ -309,25 +310,69 @@ class ScssLibrary
 		}
 	}
 
-	public function admin_bar_menu($admin_bar){
-		$admin_bar->add_menu( array(
-				'id'    => 'scss-library',
-				'title' => __('SCSS Library', 'scsslib'),
-				'href'  => '#',
-		));
+	/**
+	 * Abregar items a la barra de administración para manejar scss-library
+	 * @param  Object $admin_bar Barra de administración
+	 */
+	public function admin_bar_menu($admin_bar): void {
+		// Solo los usuarios con permisos para editar temas pueden tener
+		// acceso a estas acciones
+		if(current_user_can('edit_theme_options')) {
 
-		$url = parse_url($_SERVER['REQUEST_URI']);
-		parse_str($url['query'], $query);
-		$query['recompile_scss_files'] = true;
-		$url['query'] = http_build_query($query);
-		$url = $url['path'] . '?' . $url['query'];
+			// Items para habilitar o deshabilitar
+			$opciones = get_option('scsslibrary');
 
-		$admin_bar->add_menu( array(
-        'id'    => 'clear-scss',
-        'parent' => 'scss-library',
-        'title' => __('Recompile SCSS files', 'scsslib'),
-        'href'  => $url,
-    ));
+			// ¿Activar el modo de desarrollo?
+			if(isset( $_GET['activate_scss_library_devmode'] )) {
+				$opciones['develop'] = true;
+				update_option('scsslibrary', $opciones);
+			}
+
+			// ¿Desactivar el modo de desarrollo?
+			if(isset( $_GET['deactivate_scss_library_devmode'] )) {
+				$opciones['develop'] = false;
+				update_option('scsslibrary', $opciones);
+			}
+
+			// Item contenedor principal
+			$admin_bar->add_menu( array(
+					'id'    => 'scss-library',
+					'title' => __('SCSS Library', 'scsslib'),
+					'href'  => '#',
+			));
+
+			// Elementos para la URL
+			$url = parse_url($_SERVER['REQUEST_URI']);
+			parse_str($url['query'], $query);
+			$query1['recompile_scss_files'] = true;
+			$query2['deactivate_scss_library_devmode'] = true;
+			$query3['activate_scss_library_devmode'] = true;
+
+			// Sub item para recompilar
+			$admin_bar->add_menu( array(
+	        'id'    => 'clear-scss',
+	        'parent' => 'scss-library',
+	        'title' => __('Recompile SCSS files', 'scsslib'),
+	        'href'  => $url['path'] . '?' . http_build_query($query1)
+	    ));
+
+			// Si no está activo el develop
+			if (isset($opciones['develop']) && $opciones['develop'] ) {
+				$admin_bar->add_menu( array(
+		        'id'    => 'deactivate-scss-devmode',
+		        'parent' => 'scss-library',
+		        'title' => __('Deactivate development mode', 'scsslib'),
+		        'href'  => $url['path'] . '?' . http_build_query($query2)
+		    ));
+			} else {
+				$admin_bar->add_menu( array(
+		        'id'    => 'activate-scss-devmode',
+		        'parent' => 'scss-library',
+		        'title' => __('Activate development mode', 'scsslib'),
+		        'href'  => $url['path'] . '?' . http_build_query($query3)
+		    ));
+			}
+		}
 	}
 
 	/**

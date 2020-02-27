@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scsslib\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-27 09:59-0500\n"
+"POT-Creation-Date: 2020-02-27 11:19-0500\n"
 "PO-Revision-Date: 2014-10-09 21:36-0500\n"
 "Last-Translator: Juan Sebastián Echeverry <baxtian.echeverry@gmail.com>\n"
 "Language-Team: Juan Sebastián Echeverry <baxtian.echeverry@gmail.com>\n"
@@ -20,32 +20,40 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../src/ScssLibrary.php:152
+#: ../src/ScssLibrary.php:153
 msgid "Source file not found."
 msgstr ""
 
-#: ../src/ScssLibrary.php:170
+#: ../src/ScssLibrary.php:171
 msgid "File Permissions Error, unable to create cache directory. Please make sure the Wordpress Uploads directory is writable."
 msgstr ""
 
-#: ../src/ScssLibrary.php:183
+#: ../src/ScssLibrary.php:184
 msgid "File Permissions Error, permission denied. Please make the cache directory writable."
 msgstr ""
 
-#: ../src/ScssLibrary.php:307
+#: ../src/ScssLibrary.php:308
 #, php-format
 msgid "The development mode from the <strong>SCSS-Library</strong> is active. Remember to <a href='%s'>deactivate it</a> in case this is a production environment."
 msgstr ""
 
-#: ../src/ScssLibrary.php:315
+#: ../src/ScssLibrary.php:340
 msgid "SCSS Library"
 msgstr ""
 
-#: ../src/ScssLibrary.php:328
+#: ../src/ScssLibrary.php:355
 msgid "Recompile SCSS files"
 msgstr ""
 
-#: ../src/ScssLibrary.php:388
+#: ../src/ScssLibrary.php:364
+msgid "Deactivate development mode"
+msgstr ""
+
+#: ../src/ScssLibrary.php:371
+msgid "Activate development mode"
+msgstr ""
+
+#: ../src/ScssLibrary.php:433
 msgid "Sass Compiling Error"
 msgstr ""
 
