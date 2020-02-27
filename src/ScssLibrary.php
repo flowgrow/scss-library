@@ -54,6 +54,7 @@ class ScssLibrary
 		add_filter('style_loader_src', [$this, 'style_loader_src'], 10, 2);
 		add_action('wp_footer', array($this, 'wp_footer'));
 		add_action('admin_notices', [$this, 'admin_notices']);
+		add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 100);
 
 		$this->modo_desarrollo = false;
 
@@ -100,13 +101,17 @@ class ScssLibrary
 			return $src;
 		}
 
-		// ¿Ya sabesmos que estamos en modo de desarrollo?
+		// ¿Ya sabemos si estamos en modo de desarrollo?
 		if(!$this->modo_desarrollo) {
 			// Determinar si hubo un cambio
 			$opciones = get_option('scsslibrary');
+
+			// El modo de desarrollo se presenta porque este la opción develop activa
+			// en las opciones del plugin, porque esté definido WP_DEBUG o porque ne la url esté el atributo recompile_scss_files
 			$this->modo_desarrollo = (
 				(isset($opciones['develop']) && $opciones['develop']) ||
-				(defined('WP_DEBUG') && WP_DEBUG === true)
+				(defined('WP_DEBUG') && WP_DEBUG === true) ||
+				(isset($_GET['recompile_scss_files']))
 			) ? true : false;
 		}
 
@@ -302,6 +307,27 @@ class ScssLibrary
 			$text = sprintf(__("The development mode from the <strong>SCSS-Library</strong> is active. Remember to <a href='%s'>deactivate it</a> in case this is a production environment.", 'scsslib'), $url);
 			printf('<div class="error"><p>%s</p></div>', $text);
 		}
+	}
+
+	public function admin_bar_menu($admin_bar){
+		$admin_bar->add_menu( array(
+				'id'    => 'scss-library',
+				'title' => __('SCSS Library', 'scsslib'),
+				'href'  => '#',
+		));
+
+		$url = parse_url($_SERVER['REQUEST_URI']);
+		parse_str($url['query'], $query);
+		$query['recompile_scss_files'] = true;
+		$url['query'] = http_build_query($query);
+		$url = $url['path'] . '?' . $url['query'];
+
+		$admin_bar->add_menu( array(
+        'id'    => 'clear-scss',
+        'parent' => 'scss-library',
+        'title' => __('Recompile SCSS files', 'scsslib'),
+        'href'  => $url,
+    ));
 	}
 
 	/**
