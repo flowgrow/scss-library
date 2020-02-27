@@ -288,7 +288,7 @@ class ScssLibrary
 		$opciones = get_option('scsslibrary');
 
 		//Si hay un parámetro por get para desactivar el modo de desarrollo, desactivarlo
-		if(isset($_GET['deactivate_scss_library_development_mode'])) {
+		if(isset($_GET['deactivate_scss_library_devmode'])) {
 			$opciones['develop'] = false;
 			update_option('scsslibrary', $opciones);
 		}
@@ -296,7 +296,7 @@ class ScssLibrary
 		if(isset($opciones['develop']) && $opciones['develop'] === true) {
 			$url = parse_url($_SERVER['REQUEST_URI']);
 			parse_str($url['query'], $query);
-			$query['deactivate_scss_library_development_mode'] = true;
+			$query['deactivate_scss_library_devmode'] = true;
 			$url['query'] = http_build_query($query);
 			$url = $url['path'] . '?' . $url['query'];
 
