@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: scsslib\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-25 17:28-0500\n"
+"POT-Creation-Date: 2020-02-27 09:17-0500\n"
 "PO-Revision-Date: 2014-10-09 21:36-0500\n"
 "Last-Translator: Juan Sebastián Echeverry <baxtian.echeverry@gmail.com>\n"
 "Language-Team: Juan Sebastián Echeverry <baxtian.echeverry@gmail.com>\n"
@@ -16,28 +16,33 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;esc_attr_e;esc_attr__\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../src/ScssLibrary.php:146
+#: ../src/ScssLibrary.php:147
 msgid "Source file not found."
 msgstr ""
 
-#: ../src/ScssLibrary.php:164
+#: ../src/ScssLibrary.php:165
 msgid "File Permissions Error, unable to create cache directory. Please make sure the Wordpress Uploads directory is writable."
 msgstr ""
 
-#: ../src/ScssLibrary.php:177
+#: ../src/ScssLibrary.php:178
 msgid "File Permissions Error, permission denied. Please make the cache directory writable."
 msgstr ""
 
-#: ../src/ScssLibrary.php:335
+#: ../src/ScssLibrary.php:302
+#, php-format
+msgid "The development mode from the <strong>SCSS-Library</strong> is active. Remember to <a href='%s'>deactivate it</a> in case this is a production environment."
+msgstr ""
+
+#: ../src/ScssLibrary.php:362
 msgid "Sass Compiling Error"
 msgstr ""
 
 #: ../src/Settings/ScssLibrary.php:29
-msgid "Scss Compiler"
+msgid "SCSS Compiler"
 msgstr ""
 
 #: ../src/Settings/ScssLibrary.php:44

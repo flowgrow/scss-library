@@ -26,7 +26,7 @@ class ScssLibrary
 		$wp_customize->add_section(
 			'scsslibrary',
 			array(
-				'title' => __('Scss Compiler', 'scsslib'),
+				'title' => __('SCSS Compiler', 'scsslib'),
 			)
 		);
 

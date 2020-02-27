@@ -53,6 +53,7 @@ class ScssLibrary
 		add_action('plugins_loaded', [$this, 'plugin_setup']);
 		add_filter('style_loader_src', [$this, 'style_loader_src'], 10, 2);
 		add_action('wp_footer', array($this, 'wp_footer'));
+		add_action('admin_notices', [$this, 'admin_notices']);
 
 		$this->modo_desarrollo = false;
 
@@ -275,6 +276,32 @@ class ScssLibrary
 		// Construir URL del archivio compilado con las cadenas de consulta que
 		// venían en la URL del archivo fuente.
 		return empty($url['query']) ? $outputUrl : $outputUrl . '?' . $url['query'];
+	}
+
+	/**
+	 * Los mensajes para ser desplegados en la parte duperior del dashboard.
+ 	 * De momento muestra una advertencia si estamos en modo de desarrollador
+	 */
+	public function admin_notices() :void {
+		// Leer de la sopciones si estamos en modo develop
+		$opciones = get_option('scsslibrary');
+
+		//Si hay un parámetro por get para desactivar el modo de desarrollo, desactivarlo
+		if(isset($_GET['deactivate_scss_library_development_mode'])) {
+			$opciones['develop'] = false;
+			update_option('scsslibrary', $opciones);
+		}
+
+		if(isset($opciones['develop']) && $opciones['develop'] === true) {
+			$url = parse_url($_SERVER['REQUEST_URI']);
+			parse_str($url['query'], $query);
+			$query['deactivate_scss_library_development_mode'] = true;
+			$url['query'] = http_build_query($query);
+			$url = $url['path'] . '?' . $url['query'];
+
+			$text = sprintf(__("The development mode from the <strong>SCSS-Library</strong> is active. Remember to <a href='%s'>deactivate it</a> in case this is a production environment.", 'scsslib'), $url);
+			printf('<div class="error"><p>%s</p></div>', $text);
+		}
 	}
 
 	/**
