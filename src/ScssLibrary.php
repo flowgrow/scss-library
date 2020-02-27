@@ -339,6 +339,12 @@ class ScssLibrary
 					'id'    => 'scss-library',
 					'title' => __('SCSS Library', 'scsslib'),
 					'href'  => '#',
+					'meta' => array(
+						'class' => $opciones['develop'] ? 'sl-alert' : '',
+						'html' => "<style>
+						#wpadminbar .menupop.sl-alert > a.ab-item { color: white; background: #9c3e3d; }
+						</style>"
+					)
 			));
 
 			// Elementos para la URL
@@ -353,7 +359,7 @@ class ScssLibrary
 	        'id'    => 'clear-scss',
 	        'parent' => 'scss-library',
 	        'title' => __('Recompile SCSS files', 'scsslib'),
-	        'href'  => $url['path'] . '?' . http_build_query($query1)
+	        'href'  => $url['path'] . '?' . http_build_query($query1),
 	    ));
 
 			// Si no está activo el develop
@@ -362,7 +368,13 @@ class ScssLibrary
 		        'id'    => 'deactivate-scss-devmode',
 		        'parent' => 'scss-library',
 		        'title' => __('Deactivate development mode', 'scsslib'),
-		        'href'  => $url['path'] . '?' . http_build_query($query2)
+		        'href'  => $url['path'] . '?' . http_build_query($query2),
+						'meta' => array(
+							'class' => 'sl-active',
+							'html' => "<style>
+							#wpadminbar .ab-submenu .sl-active > a.ab-item { color: white; background: #9c3e3d; }
+							</style>"
+						)
 		    ));
 			} else {
 				$admin_bar->add_menu( array(
