@@ -1,10 +1,5 @@
 <?php
 /*
-Plugin Name: SCSS-Library
-Description: Adds support for SCSS stylesheets to wp_enqueue_style.
-Author: Juan Sebastián Echeverry
-Version: 0.1.3
-Text Domain: scsslib
 
 Copyright 2019 Juan Sebastián Echeverry (baxtian.echeverry@gmail.com)
 
@@ -355,12 +350,14 @@ class ScssLibrary
 			$query3['activate_scss_library_devmode'] = true;
 
 			// Sub item para recompilar
-			$admin_bar->add_menu( array(
-	        'id'    => 'clear-scss',
-	        'parent' => 'scss-library',
-	        'title' => __('Recompile SCSS files', 'scsslib'),
-	        'href'  => $url['path'] . '?' . http_build_query($query1),
-	    ));
+			if(!is_admin()) {
+				$admin_bar->add_menu( array(
+			        'id'    => 'clear-scss',
+			        'parent' => 'scss-library',
+			        'title' => __('Recompile SCSS files', 'scsslib'),
+			        'href'  => $url['path'] . '?' . http_build_query($query1),
+			    ));
+			}
 
 			// Si no está activo el develop
 			if (isset($opciones['develop']) && $opciones['develop'] ) {
