@@ -295,7 +295,12 @@ class ScssLibrary
 
 		if(isset($opciones['develop']) && $opciones['develop'] === true) {
 			$url = parse_url($_SERVER['REQUEST_URI']);
-			parse_str($url['query'], $query);
+
+			// Parcear el query
+			$query = array();
+			if(isset($url['query'])) {
+				parse_str($url['query'], $query);
+			}
 			$query['deactivate_scss_library_devmode'] = true;
 			$url['query'] = http_build_query($query);
 			$url = $url['path'] . '?' . $url['query'];
@@ -344,7 +349,12 @@ class ScssLibrary
 
 			// Elementos para la URL
 			$url = parse_url($_SERVER['REQUEST_URI']);
-			parse_str($url['query'], $query);
+
+			// Parcear el query
+			$query = array();
+			if(isset($url['query'])) {
+				parse_str($url['query'], $query);
+			}
 			$query1['recompile_scss_files'] = true;
 			$query2['deactivate_scss_library_devmode'] = true;
 			$query3['activate_scss_library_devmode'] = true;
