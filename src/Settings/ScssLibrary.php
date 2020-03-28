@@ -13,7 +13,7 @@ class ScssLibrary
 	 */
 	protected function __construct()
 	{
-		add_action('customize_register', array($this, 'options'));
+		add_action('customize_register', [$this, 'options']);
 	}
 
 	/**
@@ -25,28 +25,28 @@ class ScssLibrary
 		// Agregar sección de Redes sociales
 		$wp_customize->add_section(
 			'scsslibrary',
-			array(
+			[
 				'title' => __('SCSS Compiler', 'scsslib'),
-			)
+			]
 		);
 
 		// Declarar el campo para editor de mensajes
 		$wp_customize->add_setting(
 			'scsslibrary[develop]',
-			array(
+			[
 				'type' => 'option', // or 'theme_mod'
-			)
+			]
 		);
 
 		$wp_customize->add_control(
 			'scsslibrary[develop]',
-			array(
-				'label' => __('Developer mode', 'scsslib'),
+			[
+				'label'       => __('Developer mode', 'scsslib'),
 				'description' => __('Enable this option if you want to always compile the files. This is helpful while developing but remember to disable it when in production.', 'scsslib'),
-				'section' => 'scsslibrary',
-				'settings' => 'scsslibrary[develop]',
-				'type' => 'checkbox'
-			)
+				'section'     => 'scsslibrary',
+				'settings'    => 'scsslibrary[develop]',
+				'type'        => 'checkbox',
+			]
 		);
 	}
 }

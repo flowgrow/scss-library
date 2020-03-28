@@ -31,7 +31,7 @@ class ScssLibrary
 	use \Baxtian\Singleton;
 
 	// Arreglo apra guardar los mensajes de error de compilación
-	protected $errors = array();
+	protected $errors = [];
 
 	// Directorio donde se escribirán los archivos compilados
 	private $build_dir;
@@ -47,7 +47,7 @@ class ScssLibrary
 	{
 		add_action('plugins_loaded', [$this, 'plugin_setup']);
 		add_filter('style_loader_src', [$this, 'style_loader_src'], 10, 2);
-		add_action('wp_footer', array($this, 'wp_footer'));
+		add_action('wp_footer', [$this, 'wp_footer']);
 		add_action('admin_notices', [$this, 'admin_notices']);
 		add_action('admin_bar_menu', [$this, 'admin_bar_menu'], 100);
 
@@ -62,17 +62,18 @@ class ScssLibrary
 	public function plugin_setup(): void
 	{
 		// Activar el traductor
-		load_plugin_textdomain('scsslib', false, basename(dirname( __FILE__, 2 )) . '/languages/');
+		load_plugin_textdomain('scsslib', false, basename(dirname(__FILE__, 2)) . '/languages/');
 	}
 
-	public function set_directory( $path = false ) {
-		if(!$path) {
+	public function set_directory($path = false)
+	{
+		if (!$path) {
 			// Directorio donde se almacenará el cache
 			$pathname = '/build/scss_library/';
-			if ( is_multisite() ) {
-	            $blog_id   = get_current_blog_id();
-	            $pathname .= $blog_id . '/';
-	        }
+			if (is_multisite()) {
+				$blog_id   = get_current_blog_id();
+				$pathname .= $blog_id . '/';
+			}
 
 			$this->build_dir = WP_CONTENT_DIR . $pathname;
 			$this->build_url = WP_CONTENT_URL . $pathname;
@@ -97,7 +98,7 @@ class ScssLibrary
 		}
 
 		// ¿Ya sabemos si estamos en modo de desarrollo?
-		if(!$this->modo_desarrollo) {
+		if (!$this->modo_desarrollo) {
 			// Determinar si hubo un cambio
 			$opciones = get_option('scsslibrary');
 
@@ -112,7 +113,7 @@ class ScssLibrary
 		}
 
 		// Parsear la URL del archivo de estilo
-		$url = parse_url($src);
+		$url      = parse_url($src);
 		$pathinfo = pathinfo($url['path']);
 
 		// Revisión detallada para determinar si la extensión corresponde
@@ -132,21 +133,22 @@ class ScssLibrary
 		$in = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . $url['path'];
 
 		// Si es parte de un multisitio entonces hay que retirar el 'dominio'
-		if ( is_multisite() ) {
-			$aux = get_blog_details();
-            $blog_details_path   = $aux->path;
-			if($blog_details_path != PATH_CURRENT_SITE) {
+		if (is_multisite()) {
+			$aux                 = get_blog_details();
+			$blog_details_path   = $aux->path;
+			if ($blog_details_path != PATH_CURRENT_SITE) {
 				$in = str_replace($blog_details_path, PATH_CURRENT_SITE, $in);
 			}
-        }
+		}
 
 		// Confirmar que el archivo fuente existe
 		if (file_exists($in) === false) {
-			array_push($this->errors, array(
+			array_push($this->errors, [
 				'handle'  => $handle,
 				'file'    => basename($in),
 				'message' => __('Source file not found.', 'scsslib'),
-			));
+			]);
+
 			return $src;
 		}
 
@@ -160,12 +162,13 @@ class ScssLibrary
 		// Crear el directorio de archivos compilados si no existe
 		if (is_dir($outputDir) === false) {
 			if (wp_mkdir_p($outputDir) === false) {
-				array_push($this->errors, array(
+				array_push($this->errors, [
 					'handle'  => $handle,
 					'file'    => 'Cache Directory',
 					'message' => __('File Permissions Error, unable to create cache directory. Please make sure the Wordpress Uploads directory is writable.', 'scsslib'),
-				));
+				]);
 				delete_transient('scsslib_filemtimes');
+
 				return $src;
 			}
 		}
@@ -173,12 +176,13 @@ class ScssLibrary
 		// Revisar que el directorio donde se almacenarán los archivos
 		// compilados tiene permisos de escritura
 		if (is_writable($outputDir) === false) {
-			array_push($this->errors, array(
+			array_push($this->errors, [
 				'handle'  => $handle,
 				'file'    => 'Cache Directory',
 				'message' => __('File Permissions Error, permission denied. Please make the cache directory writable.', 'scsslib'),
-			));
+			]);
 			delete_transient('scsslib_filemtimes');
+
 			return $src;
 		}
 
@@ -191,7 +195,7 @@ class ScssLibrary
 
 		// Obtener la fecha que tenemos almacenada como fecha de creación de cada archivos
 		if (($filemtimes = get_transient('scsslib_filemtimes')) === false) {
-			$filemtimes = array();
+			$filemtimes = [];
 		}
 
 		// Compara la fecha de creación del archivo compilado con la fecha de creación del
@@ -201,10 +205,10 @@ class ScssLibrary
 		}
 
 		// Obtener las variables variables
-		$variables = apply_filters('scsslib_compiler_variables', array(
+		$variables = apply_filters('scsslib_compiler_variables', [
 			'template_directory_uri'   => get_template_directory_uri(),
 			'stylesheet_directory_uri' => get_stylesheet_directory_uri(),
-		));
+		]);
 
 		// Si las variables no coinciden entonces hay que compilar
 		if ($compileRequired === false) {
@@ -216,7 +220,7 @@ class ScssLibrary
 		}
 
 		// Si el archivo no existe entonces hay que compilar
-		if(!file_exists($outputDir . $outName)) {
+		if (!file_exists($outputDir . $outName)) {
 			$compileRequired = true;
 		}
 
@@ -231,18 +235,18 @@ class ScssLibrary
 				$compiler = new Compiler();
 
 				// Determinar las varianles para el archivo de depuración
-				$srcmap_data = array(
+				$srcmap_data = [
 					// Ruta absoluta donde se escribirá el archivo .map
-					'sourceMapWriteTo'  => $outputDir . $outName . ".map",
+					'sourceMapWriteTo'  => $outputDir . $outName . '.map',
 					// URL completa o relativa al archivp .map
-					'sourceMapURL'      => $outputUrl . ".map",
+					'sourceMapURL'      => $outputUrl . '.map',
 					// (Opcional) URL relativa o completa al archivo .css compilado
 					'sourceMapFilename' => $outputUrl,
 					// Ruta parcial (raiz del servidor) para crear la URL relativa
 					'sourceMapBasepath' => rtrim(ABSPATH, '/'),
 					// (Opcional) Antepuesto a las entradas de campo 'fuente' para reubicar archivos fuente
 					'sourceRoot'        => $src,
-				);
+				];
 
 				// Configuración para crear el archivo .map de depuración.
 				$compiler->setSourceMap(Compiler::SOURCE_MAP_FILE);
@@ -255,11 +259,12 @@ class ScssLibrary
 
 				$css = $compiler->compile(file_get_contents($in), $in);
 			} catch (Exception $e) {
-				array_push($this->errors, array(
+				array_push($this->errors, [
 					'handle'  => $handle,
 					'file'    => basename($in),
 					'message' => $e->getMessage(),
-				));
+				]);
+
 				return $src;
 			}
 
@@ -281,24 +286,25 @@ class ScssLibrary
 
 	/**
 	 * Los mensajes para ser desplegados en la parte duperior del dashboard.
- 	 * De momento muestra una advertencia si estamos en modo de desarrollador
+	 * De momento muestra una advertencia si estamos en modo de desarrollador
 	 */
-	public function admin_notices() :void {
+	public function admin_notices() :void
+	{
 		// Leer de la sopciones si estamos en modo develop
 		$opciones = get_option('scsslibrary');
 
 		//Si hay un parámetro por get para desactivar el modo de desarrollo, desactivarlo
-		if(isset($_GET['deactivate_scss_library_devmode'])) {
+		if (isset($_GET['deactivate_scss_library_devmode'])) {
 			$opciones['develop'] = false;
 			update_option('scsslibrary', $opciones);
 		}
 
-		if(isset($opciones['develop']) && $opciones['develop'] === true) {
+		if (isset($opciones['develop']) && $opciones['develop'] === true) {
 			$url = parse_url($_SERVER['REQUEST_URI']);
 			parse_str($url['query'], $query);
 			$query['deactivate_scss_library_devmode'] = true;
-			$url['query'] = http_build_query($query);
-			$url = $url['path'] . '?' . $url['query'];
+			$url['query']                             = http_build_query($query);
+			$url                                      = $url['path'] . '?' . $url['query'];
 
 			$text = sprintf(__("The development mode from the <strong>SCSS-Library</strong> is active. Remember to <a href='%s'>deactivate it</a> in case this is a production environment.", 'scsslib'), $url);
 			printf('<div class="error"><p>%s</p></div>', $text);
@@ -309,77 +315,81 @@ class ScssLibrary
 	 * Abregar items a la barra de administración para manejar scss-library
 	 * @param  Object $admin_bar Barra de administración
 	 */
-	public function admin_bar_menu($admin_bar): void {
+	public function admin_bar_menu($admin_bar): void
+	{
 		// Solo los usuarios con permisos para editar temas pueden tener
 		// acceso a estas acciones
-		if(current_user_can('edit_theme_options')) {
+		if (current_user_can('edit_theme_options')) {
 
 			// Items para habilitar o deshabilitar
 			$opciones = get_option('scsslibrary');
 
 			// ¿Activar el modo de desarrollo?
-			if(isset( $_GET['activate_scss_library_devmode'] )) {
+			if (isset($_GET['activate_scss_library_devmode'])) {
 				$opciones['develop'] = true;
 				update_option('scsslibrary', $opciones);
 			}
 
 			// ¿Desactivar el modo de desarrollo?
-			if(isset( $_GET['deactivate_scss_library_devmode'] )) {
+			if (isset($_GET['deactivate_scss_library_devmode'])) {
 				$opciones['develop'] = false;
 				update_option('scsslibrary', $opciones);
 			}
 
 			// Item contenedor principal
-			$admin_bar->add_menu( array(
-					'id'    => 'scss-library',
-					'title' => __('SCSS Library', 'scsslib'),
-					'href'  => '#',
-					'meta' => array(
-						'class' => $opciones['develop'] ? 'sl-alert' : '',
-						'html' => "<style>
+			$admin_bar->add_menu([
+				'id'    => 'scss-library',
+				'title' => __('SCSS Library', 'scsslib'),
+				'href'  => '#',
+				'meta'  => [
+					'class' => $opciones['develop'] ? 'sl-alert' : '',
+					'html'  => '<style>
 						#wpadminbar .menupop.sl-alert > a.ab-item { color: white; background: #9c3e3d; }
-						</style>"
-					)
-			));
+						</style>',
+				],
+			]);
 
 			// Elementos para la URL
-			$url = parse_url($_SERVER['REQUEST_URI']);
-			parse_str($url['query'], $query);
-			$query1['recompile_scss_files'] = true;
+			$url   = parse_url($_SERVER['REQUEST_URI']);
+			$query = [];
+			if (!empty($url['query'])) {
+				parse_str($url['query'], $query);
+			}
+			$query1['recompile_scss_files']            = true;
 			$query2['deactivate_scss_library_devmode'] = true;
-			$query3['activate_scss_library_devmode'] = true;
+			$query3['activate_scss_library_devmode']   = true;
 
 			// Sub item para recompilar
-			if(!is_admin()) {
-				$admin_bar->add_menu( array(
-			        'id'    => 'clear-scss',
-			        'parent' => 'scss-library',
-			        'title' => __('Recompile SCSS files', 'scsslib'),
-			        'href'  => $url['path'] . '?' . http_build_query($query1),
-			    ));
+			if (!is_admin()) {
+				$admin_bar->add_menu([
+					'id'     => 'clear-scss',
+					'parent' => 'scss-library',
+					'title'  => __('Recompile SCSS files', 'scsslib'),
+					'href'   => $url['path'] . '?' . http_build_query($query1),
+				]);
 			}
 
 			// Si no está activo el develop
-			if (isset($opciones['develop']) && $opciones['develop'] ) {
-				$admin_bar->add_menu( array(
-		        'id'    => 'deactivate-scss-devmode',
-		        'parent' => 'scss-library',
-		        'title' => __('Deactivate development mode', 'scsslib'),
-		        'href'  => $url['path'] . '?' . http_build_query($query2),
-						'meta' => array(
-							'class' => 'sl-active',
-							'html' => "<style>
+			if (isset($opciones['develop']) && $opciones['develop']) {
+				$admin_bar->add_menu([
+					'id'     => 'deactivate-scss-devmode',
+					'parent' => 'scss-library',
+					'title'  => __('Deactivate development mode', 'scsslib'),
+					'href'   => $url['path'] . '?' . http_build_query($query2),
+					'meta'   => [
+						'class' => 'sl-active',
+						'html'  => '<style>
 							#wpadminbar .ab-submenu .sl-active > a.ab-item { color: white; background: #9c3e3d; }
-							</style>"
-						)
-		    ));
+							</style>',
+					],
+				]);
 			} else {
-				$admin_bar->add_menu( array(
-		        'id'    => 'activate-scss-devmode',
-		        'parent' => 'scss-library',
-		        'title' => __('Activate development mode', 'scsslib'),
-		        'href'  => $url['path'] . '?' . http_build_query($query3)
-		    ));
+				$admin_bar->add_menu([
+					'id'     => 'activate-scss-devmode',
+					'parent' => 'scss-library',
+					'title'  => __('Activate development mode', 'scsslib'),
+					'href'   => $url['path'] . '?' . http_build_query($query3),
+				]);
 			}
 		}
 	}
@@ -442,7 +452,9 @@ class ScssLibrary
 			<div class="scsslib-title"><?php _e('Sass Compiling Error', 'scsslib'); ?></div>
 			<?php foreach ($this->errors as $error): ?>
 				<div class="scsslib-error">
-					<div class="scsslib-file"><?php if($error['handle']) printf('%s : ', $error['handle']); ?><?php print $error['file'] ?></div>
+					<div class="scsslib-file"><?php if ($error['handle']) {
+			printf('%s : ', $error['handle']);
+		} ?><?php print $error['file'] ?></div>
 					<div class="scsslib-message"><?php print $error['message'] ?></div>
 				</div>
 			<?php endforeach ?>
