@@ -50,6 +50,9 @@ My goal with this plugin is to be able to change the SCSS file directly and see 
 I don't think so. Feedbacks would be appreciated.
 
 ## Changelog
+###  0.2.7
+* Update scssphp to 1.0.9.
+
 ###  0.2.6
 * Solving bugs.
 
