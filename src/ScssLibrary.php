@@ -347,7 +347,7 @@ class ScssLibrary
 				'title' => __('SCSS Library', 'scsslib'),
 				'href'  => '#',
 				'meta'  => [
-					'class' => $opciones['develop'] ? 'sl-alert' : '',
+					'class' => (isset($opciones['develop']) && $opciones['develop']) ? 'sl-alert' : '',
 					'html'  => '<style>
 						#wpadminbar .menupop.sl-alert > a.ab-item { color: white; background: #9c3e3d; }
 						</style>',
