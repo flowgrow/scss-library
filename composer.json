@@ -12,7 +12,7 @@
     },
     "require": {
 		"scssphp/scssphp": "^1.0.8",
-        "baxtian/php-singleton": "^0.0.1"
+        "baxtian/php-singleton": "^0.1.0"
     },
 	"require-dev": {
         "brain/monkey": "^2.3",
