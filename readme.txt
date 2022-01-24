@@ -3,9 +3,9 @@
 Contributors: sebaxtian  
 Tags: SASS, compiler, SCSS  
 Requires at least: 4.4  
-Tested up to: 5.2.2  
+Tested up to: 5.5  
 Stable tag: trunk  
-Requires PHP: 5.0  
+Requires PHP: 7.1  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
