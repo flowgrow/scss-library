@@ -6,7 +6,7 @@ namespace ScssLibrary\Settings;
  */
 class ScssLibrary
 {
-	use \Baxtian\Singleton;
+	use \Baxtian\SingletonTrait;
 
 	/**
 	 * Inicializa el componente

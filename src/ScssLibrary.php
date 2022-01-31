@@ -28,7 +28,7 @@ use Exception;
  */
 class ScssLibrary
 {
-	use \Baxtian\Singleton;
+	use \Baxtian\SingletonTrait;
 
 	// Arreglo apra guardar los mensajes de error de compilación
 	protected $errors = [];
