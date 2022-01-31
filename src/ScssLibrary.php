@@ -229,7 +229,7 @@ class ScssLibrary
 			// Compilar de SCSS a CSS
 			try {
 				// Tipo de formato por defecto
-				$formatter = 'ScssPhp\ScssPhp\Formatter\Expanded';
+				$formatter = \ScssPhp\ScssPhp\OutputStyle::EXPANDED;
 
 				// Inicializar compilador
 				$compiler = new Compiler();
