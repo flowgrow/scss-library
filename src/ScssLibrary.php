@@ -71,7 +71,7 @@ class ScssLibrary
 			// Directorio donde se almacenará el cache
 			$pathname = '/build/scss_library/';
 			if (is_multisite()) {
-				$blog_id   = get_current_blog_id();
+				$blog_id = get_current_blog_id();
 				$pathname .= $blog_id . '/';
 			}
 
@@ -134,8 +134,8 @@ class ScssLibrary
 
 		// Si es parte de un multisitio entonces hay que retirar el 'dominio'
 		if (is_multisite()) {
-			$aux                 = get_blog_details();
-			$blog_details_path   = $aux->path;
+			$aux               = get_blog_details();
+			$blog_details_path = $aux->path;
 			if ($blog_details_path != PATH_CURRENT_SITE) {
 				$in = str_replace($blog_details_path, PATH_CURRENT_SITE, $in);
 			}
@@ -237,15 +237,15 @@ class ScssLibrary
 				// Determinar las varianles para el archivo de depuración
 				$srcmap_data = [
 					// Ruta absoluta donde se escribirá el archivo .map
-					'sourceMapWriteTo'  => $outputDir . $outName . '.map',
+					'sourceMapWriteTo' => $outputDir . $outName . '.map',
 					// URL completa o relativa al archivp .map
-					'sourceMapURL'      => $outputUrl . '.map',
+					'sourceMapURL' => $outputUrl . '.map',
 					// (Opcional) URL relativa o completa al archivo .css compilado
 					'sourceMapFilename' => $outputUrl,
 					// Ruta parcial (raiz del servidor) para crear la URL relativa
 					'sourceMapBasepath' => rtrim(ABSPATH, '/'),
 					// (Opcional) Antepuesto a las entradas de campo 'fuente' para reubicar archivos fuente
-					'sourceRoot'        => $src,
+					'sourceRoot' => $src,
 				];
 
 				// Configuración para crear el archivo .map de depuración.
@@ -253,8 +253,8 @@ class ScssLibrary
 				$compiler->setSourceMapOptions($srcmap_data);
 
 				// Configuración para inicializar el compilador.
-				$compiler->setFormatter($formatter);
-				$compiler->setVariables($variables);
+				$compiler->setOutputStyle($formatter);
+				$compiler->addVariables($variables);
 				$compiler->setImportPaths(dirname($in));
 
 				$css = $compiler->compile(file_get_contents($in), $in);
