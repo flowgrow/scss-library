@@ -4,7 +4,7 @@ Plugin Name: SCSS-Library
 Description: Adds support for SCSS stylesheets to wp_enqueue_style.
 Author: Florian Groh
 GitHub Plugin URI: flowgrow/scss-library
-Version: 0.2.12
+Version: 0.2.13
 Tested up to: 5.9.2
 Requires PHP: 7.1
 Text Domain: scsslib
