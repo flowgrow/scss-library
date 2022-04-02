@@ -1,9 +1,9 @@
 {
-    "name": "baxtian/scss-library",
+    "name": "flowgrow/scss-library",
     "type": "wordpress-plugin",
     "authors": [{
-        "name": "Juan Sebastián Echeverry",
-        "email": "baxtian.echeverry@gmail.com"
+        "name": "Florian Groh",
+        "email": "florian@kniff.at"
     }],
 	"autoload": {
         "psr-4": {

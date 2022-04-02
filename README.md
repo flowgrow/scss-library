@@ -1,15 +1,18 @@
 # SCSS-Library
 
-Contributors: sebaxtian  
+Contributors: sebaxtian, flowgrow  
 Tags: SASS, compiler, SCSS  
 Requires at least: 4.4  
-Tested up to: 5.2.2  
+Tested up to: 5.9.2  
 Stable tag: trunk  
 Requires PHP: 5.0  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Add support for using SCSS style files with wp\_enqueue\_style.
+
+## Fork
+This is a fork of sebaxtian's great SCSS-Library, maintained by flowgrow
 
 ## Description
 
