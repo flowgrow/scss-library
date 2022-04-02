@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 namespace ScssLibrary;
 
 use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\ValueConverter;
 use Exception;
 
 /**
@@ -204,10 +205,13 @@ class ScssLibrary
 			$compileRequired = true;
 		}
 
+		$template = get_template_directory_uri();
+		$stylesheet = get_template_directory_uri();
+
 		// Obtener las variables variables
 		$variables = apply_filters('scsslib_compiler_variables', [
-			'template_directory_uri'   => get_template_directory_uri(),
-			'stylesheet_directory_uri' => get_stylesheet_directory_uri(),
+			'template_directory_uri'   => ValueConverter::fromPhp($template),
+			'stylesheet_directory_uri' => ValueConverter::fromPhp($stylesheet),
 		]);
 
 		// Si las variables no coinciden entonces hay que compilar
@@ -245,7 +249,7 @@ class ScssLibrary
 					// Ruta parcial (raiz del servidor) para crear la URL relativa
 					'sourceMapBasepath' => rtrim(ABSPATH, '/'),
 					// (Opcional) Antepuesto a las entradas de campo 'fuente' para reubicar archivos fuente
-					'sourceRoot' => $src,
+					'sourceRoot'        => '/',
 				];
 
 				// Configuración para crear el archivo .map de depuración.
@@ -257,7 +261,10 @@ class ScssLibrary
 				$compiler->addVariables($variables);
 				$compiler->setImportPaths(dirname($in));
 
-				$css = $compiler->compile(file_get_contents($in), $in);
+				$compilerResult = $compiler->compileString(file_get_contents($in), $in);
+				$css = $compilerResult->getCss();
+				$sourceMap = $compilerResult->getSourceMap();
+
 			} catch (Exception $e) {
 				array_push($this->errors, [
 					'handle'  => $handle,
@@ -273,6 +280,7 @@ class ScssLibrary
 
 			// Guardar el archivo compilado.
 			file_put_contents($out, $css);
+			file_put_contents($srcmap_data['sourceMapWriteTo'], $sourceMap);
 
 			// Guardar el tiempo de creación del archivo.
 			$filemtimes[$out] = filemtime($out);
