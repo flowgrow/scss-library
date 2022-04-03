@@ -12,7 +12,15 @@ set -e
 SLUG=${PWD##*/}
 CURRENTDIR=`pwd`
 MAINFILE="${SLUG}.php"
- 
+
+if [ -n "$(git status --porcelain)" ]; then
+  echo "*********************************";
+  echo "Please commit your changes first.";
+  echo "*********************************";
+  git status --porcelain;
+  exit 1;
+fi
+
 # Get version from main plugin file
 NEWVERSION=`grep "^Version" "$CURRENTDIR/${SLUG}.php" | awk -F' ' '{print $2}' | sed 's/[[:space:]]//g'`
 if [[ -z "$NEWVERSION" ]]; then echo "ERROR: Cannot find version. Exiting early...."; exit 1; fi
