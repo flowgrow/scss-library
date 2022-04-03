@@ -75,7 +75,7 @@ zip -d ${ZIPFILE}.zip README.md phpunit.xml .gitignore release.sh composer.* 'te
 # Create a Release on GitHub
 echo "Creating a new release on GitHub"
 # Get changelog text from readme
-gh release create ${NEWVERSION} ${ZIPFILE}.zip
+gh release create ${NEWVERSION} ${ZIPFILE}.zip --generate-notes
 
 echo "Deleting temporary zip file."
 rm ${ZIPFILE}.zip

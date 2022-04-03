@@ -23,7 +23,7 @@ This plugin is not intended to be installed by a conventional user, but to be re
 
 ## Installation
 
-1. Decompress scss-library.zip and upload `/scss-library/` to the `/wp-content/plugins/` directory.
+1. Decompress scss-library-kniff.zip and upload `/scss-library-kniff/` to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the __Plugins__ menu in WordPress.
 
 ## Frequently Asked Questions
@@ -52,6 +52,9 @@ My goal with this plugin is to be able to change the SCSS file directly and see 
 I don't think so. Feedbacks would be appreciated.
 
 ## Changelog
+###  0.3.3
+* Make Kniff Fork, change all occurences of slug to scss-library-kniff
+
 ###  0.2.7
 * Update scssphp to 1.0.9.
 

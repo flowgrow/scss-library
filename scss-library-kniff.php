@@ -6,7 +6,7 @@ Author: Florian Groh
 GitHub Plugin URI: flowgrow/scss-library-kniff
 Primary Branch: master
 Release Asset: true
-Version: 0.3.2
+Version: 0.3.3
 Tested up to: 5.9.2
 Requires PHP: 7.1
 Text Domain: scsslib
