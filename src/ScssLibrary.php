@@ -379,7 +379,7 @@ class ScssLibrary
 				$admin_bar->add_menu([
 					'id'     => 'clear-scss',
 					'parent' => 'scss-library',
-					'title'  => __('Recompile SCSS files', 'scsslib'),
+					'title'  => __('Recompile all SCSS files', 'scsslib'),
 					'href'   => $url['path'] . '?' . http_build_query($query1),
 				]);
 			}
