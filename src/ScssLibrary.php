@@ -351,7 +351,7 @@ class ScssLibrary
 
 			// Item contenedor principal
 			$admin_bar->add_menu([
-				'id'    => 'scss-library-kniff',
+				'id'    => 'scss-library',
 				'title' => __('SCSS Library', 'scsslib'),
 				'href'  => '#',
 				'meta'  => [
@@ -378,7 +378,7 @@ class ScssLibrary
 			if (!is_admin()) {
 				$admin_bar->add_menu([
 					'id'     => 'clear-scss',
-					'parent' => 'scss-library-kniff',
+					'parent' => 'scss-library',
 					'title'  => __('Recompile all SCSS files', 'scsslib'),
 					'href'   => $url['path'] . '?' . http_build_query($query1),
 				]);
@@ -388,7 +388,7 @@ class ScssLibrary
 			if (isset($opciones['develop']) && $opciones['develop']) {
 				$admin_bar->add_menu([
 					'id'     => 'deactivate-scss-devmode',
-					'parent' => 'scss-library-kniff',
+					'parent' => 'scss-library',
 					'title'  => __('Deactivate development mode', 'scsslib'),
 					'href'   => $url['path'] . '?' . http_build_query($query2),
 					'meta'   => [
@@ -401,7 +401,7 @@ class ScssLibrary
 			} else {
 				$admin_bar->add_menu([
 					'id'     => 'activate-scss-devmode',
-					'parent' => 'scss-library-kniff',
+					'parent' => 'scss-library',
 					'title'  => __('Activate development mode', 'scsslib'),
 					'href'   => $url['path'] . '?' . http_build_query($query3),
 				]);

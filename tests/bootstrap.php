@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 // define fake PLUGIN_ABSPATH
 if ( ! defined( 'PLUGIN_ABSPATH' ) ) {
-	define( 'PLUGIN_ABSPATH', sys_get_temp_dir() . '/wp-content/plugins/scss-library-kniff/' );
+	define( 'PLUGIN_ABSPATH', sys_get_temp_dir() . '/wp-content/plugins/scss-library/' );
 }
 // define fake WP_CONTENT_DIR
 if ( ! defined( 'WP_CONTENT_DIR' ) ) {
