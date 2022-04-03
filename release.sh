@@ -21,9 +21,33 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1;
 fi
 
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+if [ $LOCAL = $REMOTE ]; then
+    echo "Local and Remote are Up-to-date."
+elif [ $LOCAL = $BASE ]; then
+    echo "**************************************"
+    echo "Remote is ahead of local. Need to pull"
+    echo "**************************************"
+    exit 2
+elif [ $REMOTE = $BASE ]; then
+    echo "**************************************"
+    echo "Local is ahead of remote. Need to push"
+    echo "**************************************"
+    git push origin master
+else
+    echo "*******************************"
+    echo "Git repositories have diverged."
+    echo "*******************************"
+    exit 3
+fi
+
 # Get version from main plugin file
 NEWVERSION=`grep "^Version" "$CURRENTDIR/${SLUG}.php" | awk -F' ' '{print $2}' | sed 's/[[:space:]]//g'`
-if [[ -z "$NEWVERSION" ]]; then echo "ERROR: Cannot find version. Exiting early...."; exit 1; fi
+if [[ -z "$NEWVERSION" ]]; then echo "ERROR: Cannot find version. Exiting early...."; exit 4; fi
 GITHUBVERSION=`gh release list --limit 1 | awk -F' ' '{print $1}'`
 
 echo "****************************************";
@@ -37,7 +61,7 @@ if [ "$GITHUBVERSION" == "$NEWVERSION" ]; then
 fi
 
 echo "****************************************";
-if [ $EXIT ]; then exit 1; fi
+if [ $EXIT ]; then exit 5; fi
 
  
 ZIPFILE=${SLUG}-${NEWVERSION}
@@ -55,5 +79,3 @@ gh release create ${NEWVERSION} ${ZIPFILE}.zip
 
 echo "Deleting temporary zip file."
 rm ${ZIPFILE}.zip
- 
-echo "*** FIN ***"
