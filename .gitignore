@@ -4,5 +4,5 @@
 /tests/assets/build
 /tests/coverage
 /tests/reports
-scss-library.zip
+*.zip
 composer.lock
