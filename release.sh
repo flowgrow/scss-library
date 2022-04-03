@@ -79,3 +79,4 @@ gh release create ${NEWVERSION} ${ZIPFILE}.zip --generate-notes
 
 echo "Deleting temporary zip file."
 rm ${ZIPFILE}.zip
+rm readme.txt
