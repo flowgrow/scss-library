@@ -4,10 +4,9 @@ Plugin Name: SCSS-Library Kniff Fork
 Description: Adds support for SCSS stylesheets to wp_enqueue_style.
 Author: Florian Groh
 GitHub Plugin URI: flowgrow/scss-library
-Update URI: https://github.com/flowgrow/scss-library
 Primary Branch: master
 Release Asset: true
-Version: 0.3.5
+Version: 0.3.6
 Tested up to: 5.9.2
 Requires PHP: 7.1
 Text Domain: scsslib
@@ -36,6 +35,12 @@ if (defined('WP_CLI') && WP_CLI) {
 }
 
 require_once('vendor/autoload.php');
+
+add_filter( 'gu_override_dot_org', function() {
+	return [ 
+			'scss-library/scss-library.php' // plugin file
+	];
+});
 
 ScssLibrary\ScssLibrary::get_instance();
 ScssLibrary\Settings\ScssLibrary::get_instance();
