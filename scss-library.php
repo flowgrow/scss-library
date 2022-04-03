@@ -7,7 +7,7 @@ GitHub Plugin URI: flowgrow/scss-library
 Update URI: https://github.com/flowgrow/scss-library
 Primary Branch: master
 Release Asset: true
-Version: 0.3.4
+Version: 0.3.5
 Tested up to: 5.9.2
 Requires PHP: 7.1
 Text Domain: scsslib
