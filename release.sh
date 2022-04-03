@@ -64,13 +64,16 @@ echo "****************************************";
 if [ $EXIT ]; then exit 5; fi
 
  
-ZIPFILE=${SLUG}-${NEWVERSION}
-echo "Creating temporary zip file ${ZIPFILE}.zip..."
+echo "Creating temporary zip file ${SLUG}.zip..."
 composer clear
 composer readme
-composer archive --format=zip --file ${ZIPFILE}
-zip -u ${ZIPFILE}.zip vendor/*
-zip -d ${ZIPFILE}.zip README.md phpunit.xml .gitignore release.sh composer.* 'tests/*'
+composer archive --format=zip --file ${SLUG}
+zip -u ${SLUG}.zip vendor/*
+zip -d ${SLUG}.zip README.md phpunit.xml .gitignore release.sh composer.* 'tests/*'
+ZIPFILE=${SLUG}-${NEWVERSION}
+
+echo "Rename ${SLUG}.zip to ${ZIPFILE}.zip"
+mv ${SLUG}.zip ${ZIPFILE}.zip
 
 # Create a Release on GitHub
 echo "Creating a new release on GitHub"
