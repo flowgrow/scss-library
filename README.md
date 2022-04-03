@@ -1,4 +1,4 @@
-# SCSS-Library
+# SCSS-Library Kniff Fork
 
 Contributors: sebaxtian, flowgrow  
 Tags: SASS, compiler, SCSS  
