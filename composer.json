@@ -25,16 +25,20 @@
 		"test-report": "phpunit --coverage-html=./tests/reports",
 		"zip": [
 			"@clear",
-			"@composer archive --format=zip --file scss-library",
-			"zip -u scss-library.zip vendor/*",
-			"zip -d scss-library.zip README.md phpunit.xml .gitignore composer.* 'tests/*'"
+            "@readme",
+			"@composer archive --format=zip --file scss-library-kniff",
+			"zip -u scss-library-kniff.zip vendor/*",
+			"zip -d scss-library-kniff.zip README.md phpunit.xml .gitignore composer.* 'tests/*'"
 		],
 		"clear": [
 			"rm -rf ./tests/coverage",
 			"rm -rf ./tests/assets/build",
 			"rm -rf ./tests/reports",
-			"rm -f ./scss-library.zip",
+			"rm -f ./scss-library-kniff.zip",
 			"@composer update --no-dev -o"
-		]
+		],
+        "release": [
+            "bash release.sh"
+        ]
     }
 }
