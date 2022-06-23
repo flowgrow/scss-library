@@ -276,7 +276,7 @@ class ScssLibrary
 			}
 
 			// Transformar las rutas relativas para que funcionen correctamente
-			$css = preg_replace('#(url\((?![\'"]?(?:https?:|/))[\'"]?)#miu', '$1' . dirname($url['path']) . '/', $css);
+			$css = preg_replace('#(url\((?![\'"]?(?:https?:|/|data))[\'"]?)#miu', '$1' . dirname($url['path']) . '/', $css);
 
 			// Guardar el archivo compilado.
 			file_put_contents($out, $css);
